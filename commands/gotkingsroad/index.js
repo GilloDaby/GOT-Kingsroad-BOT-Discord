@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, ChannelType, PermissionsBitField, AttachmentBuilder } = require('discord.js');
+const { DateTime } = require('luxon');
 const { TZ_SUGGESTIONS, DEFAULT_TZ } = require('../../utils/constants');
 const { tzOf, styleOf, nowInTZ, format12HourTime, formatCountdown, formatDuration } = require('../../utils/time');
 const { getSettings, updateSettings } = require('../../services/settings');
@@ -8,6 +9,7 @@ const { getLatestPatchnotePayload } = require('../../services/patchnote');
 const { addReminder, getUserReminders, clearUserRemindersByTimer, clearUserReminders } = require('../../services/reminders');
 const { sendRanksMessage } = require('../../services/ranks');
 const { getAllMarkerNames } = require('../../services/markers');
+const { addCustomTimer, getCustomTimers, removeCustomTimer } = require('../../services/customTimers');
 const { I18N, t } = require('../../i18n');
 
 let botStartedAt = new Date();
@@ -66,6 +68,19 @@ const builder = new SlashCommandBuilder()
           .addIntegerOption(o => o.setName('minutes').setDescription('Minutes').setRequired(true))
       )
       .addSubcommand(s => s.setName('clearall').setDescription('Clear ALL your reminders'))
+  )
+  .addSubcommandGroup(g =>
+    g.setName('customtimer').setDescription('Manage custom timers')
+      .addSubcommand(s =>
+        s.setName('add').setDescription('Add a custom timer')
+          .addStringOption(o => o.setName('name').setDescription('Timer name').setRequired(true))
+          .addStringOption(o => o.setName('time').setDescription('YYYY-MM-DD HH:mm').setRequired(true))
+      )
+      .addSubcommand(s => s.setName('list').setDescription('List custom timers'))
+      .addSubcommand(s =>
+        s.setName('remove').setDescription('Remove a custom timer')
+          .addStringOption(o => o.setName('name').setDescription('Timer name').setRequired(true))
+      )
   )
   .addSubcommandGroup(g =>
     g.setName('set').setDescription('Set per-server preferences')
@@ -129,7 +144,7 @@ async function run(interaction, client) {
   const settings = interaction.guildId ? await getSettings(interaction.guildId) : {};
 
   const adminCommands = new Set(['setup','reload','cleanup','permissions','message','reset','patchnote','summon','status']);
-  const adminGroups = new Set(['channel','config','set','rank']);
+  const adminGroups = new Set(['channel','config','set','rank','customtimer']);
 
   const shouldBePrivate =
     new Set(['setup','reload','about','cleanup','permissions','status','uptime','help','helpadmin','ping','message','reset','patchnote','timers']).has(sub) ||
@@ -566,6 +581,38 @@ async function run(interaction, client) {
     if (sub === 'clearall') {
       await clearUserReminders(interaction.user.id);
       return interaction.editReply({ content: t('reminders_cleared_all', settings) });
+    }
+  }
+
+  if (group === 'customtimer') {
+    if (sub === 'add') {
+      const name = interaction.options.getString('name', true);
+      const timeStr = interaction.options.getString('time', true);
+      const tz = tzOf(settings);
+      const dt = DateTime.fromFormat(timeStr, 'yyyy-LL-dd HH:mm', { zone: tz });
+      if (!dt.isValid) {
+        return interaction.editReply({ content: t('custom_timer_invalid_time', settings) });
+      }
+      await addCustomTimer(interaction.guildId, name, dt.toJSDate());
+      return interaction.editReply({ content: t('custom_timer_added', settings, name, dt.toFormat('yyyy-LL-dd HH:mm')) });
+    }
+    if (sub === 'list') {
+      const list = await getCustomTimers(interaction.guildId);
+      if (!list.length) {
+        return interaction.editReply({ content: t('custom_timer_list', settings, t('missing', settings)) });
+      }
+      const tz = tzOf(settings);
+      const now = new Date();
+      const lines = list.map(r => {
+        const dt = DateTime.fromJSDate(r.time).setZone(tz);
+        return `• **${r.name}** – ${dt.toFormat('yyyy-LL-dd HH:mm')} (${t('in_label', settings, formatCountdown(r.time - now))})`;
+      });
+      return interaction.editReply({ content: t('custom_timer_list', settings, lines.join('\n')) });
+    }
+    if (sub === 'remove') {
+      const name = interaction.options.getString('name', true);
+      const ok = await removeCustomTimer(interaction.guildId, name);
+      return interaction.editReply({ content: ok ? t('custom_timer_removed', settings, name) : t('custom_timer_not_found', settings, name) });
     }
   }
 

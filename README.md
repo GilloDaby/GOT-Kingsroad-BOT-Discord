@@ -28,8 +28,10 @@ A Discord bot for **Game of Thrones: Kingsroad** guilds, providing centralized t
   Reaction-based interface for guild members to opt in/out of alert roles.
 - **Patch Notes & Calendar Screenshots**  
   Posts patch notes and captures event calendars for quick reference.
-- **Marker Search**  
+- **Marker Search**
   Retrieves a screenshot centered on a specific in-game map marker.
+- **Custom Timers**
+  Guild-specific timers for any event via `/gotkingsroad customtimer`.
 
 ---
 
@@ -88,6 +90,7 @@ A Discord bot for **Game of Thrones: Kingsroad** guilds, providing centralized t
 | `/gotkingsroad reset` | Clear recorded timer message | Admin |
 | `/gotkingsroad patchnote` | Post latest patch notes and store message ID | Admin |
 | `/gotkingsroad summon <timer>` | Trigger an alert manually | Admin |
+| `/gotkingsroad customtimer add <name> <time>` | Add/List/Remove custom timers | Admin |
 | `/gotkingsroad status` | Display current server configuration | Admin |
 | `/gotkingsroad helpadmin` | Show admin-only help | Admin |
 

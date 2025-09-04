@@ -36,6 +36,12 @@ const I18N = {
     latency_label: '🏓 Latency:',
     next_timers_title: 'Next Timers',
 
+    custom_timer_added: '⏰ Custom timer "{0}" set for {1}.',
+    custom_timer_removed: '🗑️ Removed custom timer "{0}".',
+    custom_timer_not_found: '❌ Custom timer "{0}" not found.',
+    custom_timer_list: '📆 Custom timers:\n{0}',
+    custom_timer_invalid_time: '❌ Invalid time format. Use YYYY-MM-DD HH:mm.',
+
     // ===== Setup / reload / cleanup =====
     choose_alert_roles: 'Choose the alert roles you want to receive',
     done_setup: 'Setup completed.',
@@ -174,6 +180,12 @@ help_admin:
     latency_label: '🏓 Latence :',
     next_timers_title: 'Prochains timers',
 
+    custom_timer_added: '⏰ Minuteur "{0}" fixé pour {1}.',
+    custom_timer_removed: '🗑️ Minuteur "{0}" supprimé.',
+    custom_timer_not_found: '❌ Minuteur "{0}" introuvable.',
+    custom_timer_list: '📆 Minuteries personnalisées:\n{0}',
+    custom_timer_invalid_time: '❌ Format de date invalide. Utilisez YYYY-MM-DD HH:mm.',
+
     choose_alert_roles: 'Choisissez les rôles d’alerte que vous souhaitez recevoir',
     done_setup: 'Configuration terminée.',
     done_reload: 'Rechargement effectué.',
@@ -304,6 +316,12 @@ help_admin:
     latency_label: '🏓 Latencia:',
     next_timers_title: 'Próximos temporizadores',
 
+    custom_timer_added: '⏰ Temporizador "{0}" programado para {1}.',
+    custom_timer_removed: '🗑️ Temporizador "{0}" eliminado.',
+    custom_timer_not_found: '❌ Temporizador "{0}" no encontrado.',
+    custom_timer_list: '📆 Temporizadores personalizados:\n{0}',
+    custom_timer_invalid_time: '❌ Formato de hora inválido. Use YYYY-MM-DD HH:mm.',
+
     choose_alert_roles: 'Elige los roles de alerta que quieres recibir',
     done_setup: 'Configuración completada.',
     done_reload: 'Recarga completada.',
@@ -433,6 +451,12 @@ help_admin:
     uptime_label: 'Uptime:',
     latency_label: '🏓 Latência:',
     next_timers_title: 'Próximos timers',
+
+    custom_timer_added: '⏰ Timer "{0}" definido para {1}.',
+    custom_timer_removed: '🗑️ Timer "{0}" removido.',
+    custom_timer_not_found: '❌ Timer "{0}" não encontrado.',
+    custom_timer_list: '📆 Timers personalizados:\n{0}',
+    custom_timer_invalid_time: '❌ Formato de hora inválido. Use YYYY-MM-DD HH:mm.',
 
     choose_alert_roles: 'Escolha os cargos de alerta que deseja receber',
     done_setup: 'Configuração concluída.',
