@@ -45,23 +45,43 @@ Automatiser les alertes du jeu et faciliter la gestion des salons/rôles liés a
    ```bash
    npm start
    ```
+=======
 
 ## Commandes slash essentielles
-Toutes les commandes sont regroupées sous `/gotkingsroad`.
 
-| Commande | Description |
-|----------|-------------|
-| `/gotkingsroad setup` | Configure automatiquement les salons et rôles du bot. |
-| `/gotkingsroad set timezone|language|style` | Définit le fuseau horaire, la langue ou le style d'affichage. |
-| `/gotkingsroad timers` | Affiche les prochains timers avec compte à rebours. |
-| `/gotkingsroad reminder add|list|remove|clear|clearall` | Gère vos rappels privés. |
-| `/gotkingsroad rank post` | Publie le sélecteur de rôles d'alerte. |
-| `/gotkingsroad message` | Envoie ou rafraîchit le message des timers. |
-| `/gotkingsroad searchmarker` | Affiche une capture centrée sur un marqueur. |
-| `/gotkingsroad event` | Publie la capture du calendrier d'événements. |
-| `/gotkingsroad patchnote` | Affiche la dernière note de version du bot. |
-| `/gotkingsroad summon` | Déclenche manuellement une alerte. |
-| `/gotkingsroad status` / `/gotkingsroad uptime` | Informations de diagnostic sur le bot. |
+#### Administration
+- **setup** : crée salons, rôles et message des timers. *Administrateur requis.*
+- **reload** : recharge la configuration et régénère les messages manquants. *Administrateur.*
+- **cleanup** : supprime les messages dupliqués postés par le bot. *Administrateur.*
+- **permissions** : vérifie les permissions nécessaires dans les salons configurés. *Administrateur.*
+- **config export** : exporte la configuration du serveur en JSON. *Administrateur.*
+- **config import `<fichier>`** : importe une configuration depuis un fichier JSON. *Administrateur.*
+- **set timezone `<IANA>`** : définit le fuseau horaire du serveur (auto-complétion). *Administrateur.*
+- **set language `<fr|en|es|pt-br>`** : définit la langue des messages. *Administrateur.*
+- **set style `<compact|embed>`** : choisit l'apparence du message des timers. *Administrateur.*
+- **rank post** : publie le message pour s'abonner aux rôles d'alerte. *Administrateur.*
+- **rank `<drogon|daily|weekly|peddler|beast>` `<role>`** : assigne le rôle utilisé pour chaque alerte. *Administrateur.*
+- **message** : envoie ou rafraîchit le message des timers dans le salon global. *Administrateur.*
+- **reset** : supprime le message de timers enregistré. *Administrateur.*
+- **patchnote** : envoie la dernière note de version et mémorise son message. *Administrateur.*
+- **summon `<timer>`** : déclenche immédiatement une alerte (drogon, peddler, daily, weekly, beast). *Administrateur.*
+- **status** : affiche la configuration actuelle du serveur (salons, rôles, fuseau...). *Administrateur.*
+- **helpadmin** : affiche l'aide réservée aux administrateurs.
+
+#### Utilisateurs
+- **timers** : affiche les prochains événements avec compte à rebours.
+- **reminder add `<timer>` `<minutes>`** : reçoit un DM `minutes` avant l'événement choisi.
+- **reminder list** : liste vos rappels enregistrés.
+- **reminder remove `<timer>` `<minutes>`** : supprime un rappel précis.
+- **reminder clear `<timer>`** : supprime tous les rappels pour un timer donné.
+- **reminder clearall** : efface tous vos rappels.
+- **searchmarker `<nom>`** : capture d'écran centrée sur un marqueur de la carte.
+- **event** : capture du calendrier d'événements en cours.
+- **about** : informations générales sur le bot et le projet.
+- **help** : aide générale pour les utilisateurs.
+- **ping** : vérifie la latence du bot.
+- **uptime** : indique depuis combien de temps le bot est en ligne.
+
 
 ## Scénarios d'usage
 - **Nouvelle installation** : `/gotkingsroad setup` puis `/gotkingsroad rank post` pour permettre aux membres de s'abonner aux alertes.
