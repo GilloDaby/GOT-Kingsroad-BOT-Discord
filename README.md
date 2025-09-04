@@ -45,25 +45,9 @@ Automatiser les alertes du jeu et faciliter la gestion des salons/rôles liés a
    ```bash
    npm start
    ```
+=======
 
-## Commandes slash
-Toutes les commandes sont regroupées sous `/gotkingsroad`.
-
-| Commande | Description |
-|----------|-------------|
-| `/gotkingsroad setup` | Configure automatiquement les salons et rôles du bot. |
-| `/gotkingsroad set timezone|language|style` | Définit le fuseau horaire, la langue ou le style d'affichage. |
-| `/gotkingsroad timers` | Affiche les prochains timers avec compte à rebours. |
-| `/gotkingsroad reminder add|list|remove|clear|clearall` | Gère vos rappels privés. |
-| `/gotkingsroad rank post` | Publie le sélecteur de rôles d'alerte. |
-| `/gotkingsroad message` | Envoie ou rafraîchit le message des timers. |
-| `/gotkingsroad searchmarker` | Affiche une capture centrée sur un marqueur. |
-| `/gotkingsroad event` | Publie la capture du calendrier d'événements. |
-| `/gotkingsroad patchnote` | Affiche la dernière note de version du bot. |
-| `/gotkingsroad summon` | Déclenche manuellement une alerte. |
-| `/gotkingsroad status` / `/gotkingsroad uptime` | Informations de diagnostic sur le bot. |
-
-### Détails des sous-commandes
+## Commandes slash essentielles
 
 #### Administration
 - **setup** : crée salons, rôles et message des timers. *Administrateur requis.*
@@ -97,6 +81,7 @@ Toutes les commandes sont regroupées sous `/gotkingsroad`.
 - **help** : aide générale pour les utilisateurs.
 - **ping** : vérifie la latence du bot.
 - **uptime** : indique depuis combien de temps le bot est en ligne.
+
 
 ## Scénarios d'usage
 - **Nouvelle installation** : `/gotkingsroad setup` puis `/gotkingsroad rank post` pour permettre aux membres de s'abonner aux alertes.
