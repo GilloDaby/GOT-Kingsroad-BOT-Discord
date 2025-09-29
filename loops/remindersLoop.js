@@ -1,5 +1,5 @@
 const { loadReminders, clearUserReminders } = require('../services/reminders');
-const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime } = require('../services/timers');
+const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime, getNextLimitedDealTime } = require('../services/timers');
 const { DEFAULT_TZ } = require('../utils/constants');
 
 const remindedCache = new Map();
@@ -21,7 +21,8 @@ async function tickReminders(client, botStart) {
     daily:   getDailyResetTime(),
     weekly:  getWeeklyResetTime(),
     peddler: getNextPeddlerTime(tz),
-    beast:   getNextBeastTime()
+    beast:   getNextBeastTime(),
+    limiteddeal: getNextLimitedDealTime(tz)
   };
 
   for (const r of reminders) {
@@ -29,12 +30,13 @@ async function tickReminders(client, botStart) {
     const diff = eventTime - now;
     const threshold = r.minutes * 60_000;
 
-    if (diff <= threshold && diff > 0) {
-      const key = getReminderKey(r.timer, eventTime, r.userId, r.minutes);
-      if (!remindedCache.has(key)) {
-        try {
-          const user = await client.users.fetch(r.userId);
-          await user.send(`🔔 **Reminder:** ${r.timer.toUpperCase()} starts in ${r.minutes} minute(s)!`);
+      if (diff <= threshold && diff > 0) {
+        const key = getReminderKey(r.timer, eventTime, r.userId, r.minutes);
+        if (!remindedCache.has(key)) {
+          try {
+            const user = await client.users.fetch(r.userId);
+          const label = r.timer === 'limiteddeal' ? 'LIMITED TIME DEAL' : r.timer.toUpperCase();
+          await user.send(`🔔 **Reminder:** ${label} starts in ${r.minutes} minute(s)!`);
           remindedCache.set(key, true);
         } catch (e) {
           if (e.code === 50007) { // privacy

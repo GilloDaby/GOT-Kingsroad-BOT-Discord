@@ -4,6 +4,7 @@ const {
   DEFAULT_TZ,
   DROGON_SLOTS, DROGON_MINUTE,
   PEDDLER_SLOTS, PEDDLER_MINUTE,
+  LIMITED_DEAL_SLOTS, LIMITED_DEAL_MINUTE,
   BEAST_ZONE, BEAST_HOURS,
   DAILY_RESET_UTC, WEEKLY_RESET_UTC,
 } = require('../utils/constants');
@@ -31,6 +32,10 @@ function getNextDrogonTime(tz = DEFAULT_TZ) {
 
 function getNextPeddlerTime(tz = DEFAULT_TZ) {
   return getNextFromSlots(tz, PEDDLER_SLOTS, PEDDLER_MINUTE, 0);
+}
+
+function getNextLimitedDealTime(tz = DEFAULT_TZ) {
+  return getNextFromSlots(tz, LIMITED_DEAL_SLOTS, LIMITED_DEAL_MINUTE, 0);
 }
 
 function getDailyResetTime() {
@@ -68,6 +73,7 @@ function getNextBeastTime() {
 module.exports = {
   getNextDrogonTime,
   getNextPeddlerTime,
+  getNextLimitedDealTime,
   getDailyResetTime,
   getWeeklyResetTime,
   getNextBeastTime,
