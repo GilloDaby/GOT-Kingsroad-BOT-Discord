@@ -10,6 +10,7 @@ async function updateTimerMessageLoop(client) {
   const db = require('../db');
   const [rows] = await db.query('SELECT * FROM settings WHERE globalTimerChannelId IS NOT NULL AND timerMessageId IS NOT NULL');
   const FIVE_MIN = 5 * 60 * 1000;
+  const TWO_HOURS = 2 * 60 * 60 * 1000;
   const keyOf = (d) => d?.getTime?.() ?? 0;
 
   for (const settings of rows) {
@@ -35,7 +36,8 @@ async function updateTimerMessageLoop(client) {
       async function sendWarn(roleId, content) {
         if (!roleId || !settings.drogonWarningChannelId) return;
         const warnCh = await client.channels.fetch(settings.drogonWarningChannelId);
-        await warnCh.send({ content: `${content}\n<@&${roleId}>`, allowedMentions: { roles: [roleId] } });
+        const msg = await warnCh.send({ content: `${content}\n<@&${roleId}>`, allowedMentions: { roles: [roleId] } });
+        if (msg) setTimeout(() => msg.delete().catch(() => {}), TWO_HOURS);
       }
 
       if (nextDrogon - now > 0 && nextDrogon - now <= FIVE_MIN && sent.lastDrogonTime !== keyOf(nextDrogon)) {
