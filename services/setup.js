@@ -4,7 +4,7 @@ const { sendRanksMessage } = require('./ranks');
 const { getLatestPatchnotePayload } = require('./patchnote');
 const { tzOf, styleOf } = require('../utils/time');
 const { I18N, t, langOf } = require('../i18n');
-const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime } = require('./timers');
+const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime, getNextLimitedDealTime } = require('./timers');
 
 async function buildTimerBody(settings) {
   const { formatCountdown, nowInTZ } = require('../utils/time');
@@ -15,13 +15,15 @@ async function buildTimerBody(settings) {
   const nextDaily  = getDailyResetTime();
   const nextWeekly = getWeeklyResetTime();
   const nextBeast  = getNextBeastTime();
+  const nextLimitedDeal = getNextLimitedDealTime(tz);
 
   const lines = [
     `⏰ **Daily Reset**: ${formatCountdown(nextDaily - now)}`,
     `🔥 **Drogon**: ${formatCountdown(nextDrogon - now)}`,
     `📅 **Weekly Reset**: ${formatCountdown(nextWeekly - now)}`,
     `🔔 **Peddler**: ${formatCountdown(nextPeddler - now)}`,
-    `🐺 **Beast**: ${formatCountdown(nextBeast - now)}`
+    `🐺 **Beast**: ${formatCountdown(nextBeast - now)}`,
+    `🛍️ **Limited Time Deal**: ${formatCountdown(nextLimitedDeal - now)}`
   ];
 
   if (styleOf(settings) === 'embed') {
@@ -68,7 +70,7 @@ async function ensureGuildSetup(guild) {
     ch[key] = c;
   }
 
-  const roleNames = ['AlertDrogon','AlertPeddler','AlertDaily','AlertWeekly','AlertBeast'];
+  const roleNames = ['AlertDrogon','AlertPeddler','AlertDaily','AlertWeekly','AlertBeast','AlertLimitedDeal'];
   const roles = {};
   for (const rName of roleNames) {
     let r = guild.roles.cache.find(r => r.name === rName);
@@ -85,6 +87,7 @@ async function ensureGuildSetup(guild) {
     dailyRoleId: roles.AlertDaily.id,
     weeklyRoleId: roles.AlertWeekly.id,
     beastRoleId: roles.AlertBeast.id,
+    limitedDealRoleId: roles.AlertLimitedDeal.id,
     drogonWarningChannelId: ch.alert.id,
     globalTimerChannelId: ch.timer.id,
     patchnoteChannelId: ch.patch.id,

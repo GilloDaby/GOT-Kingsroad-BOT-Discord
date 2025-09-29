@@ -27,6 +27,7 @@ const I18N = {
     label_weekly_role: 'Weekly Role',
     label_peddler_role: 'Peddler Role',
     label_beast_role: 'Beast Role',
+    label_limiteddeal_role: 'Limited Time Deal Role',
     label_timezone: 'Timezone',
     label_language: 'Language',
     label_style: 'Style',
@@ -72,6 +73,7 @@ const I18N = {
     daily_near: 'Daily Reset at **{0}**',
     weekly_near: 'Weekly Reset at **{0}**',
     beast_near: 'Beast at **{0}**',
+    limiteddeal_near: 'Limited Time Deal at **{0}**',
 
     // ===== Patchnote / message =====
     need_patchnote_channel: '❌ Configure `/gotkingsroad channel patchnote` first.',
@@ -128,12 +130,12 @@ help_admin:
 • \`setup\`, \`reload\`, \`cleanup\`, \`permissions\`, \`status\`, \`uptime\`
 • \`set timezone|language|style\`
 • \`channel timer|warning|patchnote\`
-• \`rank post|drogon|peddler|daily|weekly|beast\`
+• \`rank post|drogon|peddler|daily|weekly|beast|limiteddeal\`
 • \`message\`, \`reset\`, \`patchnote\`, \`summon\``,
 
     about:
 `🐲 **GOT Kingsroad Bot**
-• **Timers & Alerts**: Drogon, Peddler, Daily Reset, Weekly Reset, Beast (with 5-min warnings & DM reminders).
+• **Timers & Alerts**: Drogon, Peddler, Daily Reset, Weekly Reset, Beast, Limited Time Deal (with 5-min warnings & DM reminders).
 • **Map Tools**: /searchmarker with autocomplete & live screenshots.
 • **Reminders**: DM alerts (add | list | remove | clear | clearall).
 • **Patchnotes & Events**: Auto-updating patchnotes + event calendar screenshot.
@@ -171,6 +173,7 @@ help_admin:
     label_weekly_role: 'Rôle Weekly',
     label_peddler_role: 'Rôle Peddler',
     label_beast_role: 'Rôle Beast',
+    label_limiteddeal_role: 'Rôle Offre limitée',
     label_timezone: 'Fuseau',
     label_language: 'Langue',
     label_style: 'Style',
@@ -212,6 +215,7 @@ help_admin:
     daily_near: 'Reset quotidien à **{0}**',
     weekly_near: 'Reset hebdo à **{0}**',
     beast_near: 'Beast à **{0}**',
+    limiteddeal_near: 'Offre limitée à **{0}**',
 
     need_patchnote_channel: '❌ Configurez d’abord `/gotkingsroad channel patchnote`.',
     patchnote_sent: '✅ Patchnote envoyé et suivi (mise à jour auto).',
@@ -264,12 +268,12 @@ help_admin:
 • \`setup\`, \`reload\`, \`cleanup\`, \`permissions\`, \`status\`, \`uptime\`
 • \`set timezone|language|style\`
 • \`channel timer|warning|patchnote\`
-• \`rank post|drogon|peddler|daily|weekly|beast\`
+• \`rank post|drogon|peddler|daily|weekly|beast|limiteddeal\`
 • \`message\`, \`reset\`, \`patchnote\`, \`summon\``,
 
     about:
 `🐲 **Bot GOT Kingsroad**
-• **Timers & Alertes** : Drogon, Peddler, Reset Quotidien, Reset Hebdo, Beast (alertes 5 min avant & rappels en DM).
+• **Timers & Alertes** : Drogon, Peddler, Reset Quotidien, Reset Hebdo, Beast, Offre limitée (alertes 5 min avant & rappels en DM).
 • **Outils Carte** : /searchmarker avec autocomplétion & captures.
 • **Rappels** : DM (add | list | remove | clear | clearall).
 • **Patchnotes & Événements** : patchnotes auto + capture calendrier.
@@ -307,6 +311,7 @@ help_admin:
     label_weekly_role: 'Rol Weekly',
     label_peddler_role: 'Rol Peddler',
     label_beast_role: 'Rol Beast',
+    label_limiteddeal_role: 'Rol Oferta Limitada',
     label_timezone: 'Zona horaria',
     label_language: 'Idioma',
     label_style: 'Estilo',
@@ -348,6 +353,7 @@ help_admin:
     daily_near: 'Reinicio diario a las **{0}**',
     weekly_near: 'Reinicio semanal a las **{0}**',
     beast_near: 'Beast a las **{0}**',
+    limiteddeal_near: 'Oferta limitada a las **{0}**',
 
     need_patchnote_channel: '❌ Configura primero `/gotkingsroad channel patchnote`.',
     patchnote_sent: '✅ Patchnote enviado (actualización automática).',
@@ -400,12 +406,12 @@ help_admin:
 • \`setup\`, \`reload\`, \`cleanup\`, \`permissions\`, \`status\`, \`uptime\`
 • \`set timezone|language|style\`
 • \`channel timer|warning|patchnote\`
-• \`rank post|drogon|peddler|daily|weekly|beast\`
+• \`rank post|drogon|peddler|daily|weekly|beast|limiteddeal\`
 • \`message\`, \`reset\`, \`patchnote\`, \`summon\``,
 
     about:
 `🐲 **Bot GOT Kingsroad**
-• **Temporizadores y Alertas**: Drogon, Peddler, Reinicio Diario, Reinicio Semanal, Beast (avisos 5 min antes y recordatorios por DM).
+• **Temporizadores y Alertas**: Drogon, Peddler, Reinicio Diario, Reinicio Semanal, Beast, Oferta Limitada (avisos 5 min antes y recordatorios por DM).
 • **Herramientas de Mapa**: /searchmarker con autocompletar y capturas en vivo.
 • **Recordatorios**: DM (add | list | remove | clear | clearall).
 • **Patchnotes & Eventos**: patchnotes auto + captura del calendario.
@@ -443,6 +449,7 @@ help_admin:
     label_weekly_role: 'Cargo Weekly',
     label_peddler_role: 'Cargo Peddler',
     label_beast_role: 'Cargo Beast',
+    label_limiteddeal_role: 'Cargo Oferta Limitada',
     label_timezone: 'Fuso horário',
     label_language: 'Idioma',
     label_style: 'Estilo',
@@ -484,6 +491,7 @@ help_admin:
     daily_near: 'Reset diário às **{0}**',
     weekly_near: 'Reset semanal às **{0}**',
     beast_near: 'Beast às **{0}**',
+    limiteddeal_near: 'Oferta limitada às **{0}**',
 
     need_patchnote_channel: '❌ Configure primeiro `/gotkingsroad channel patchnote`.',
     patchnote_sent: '✅ Patchnote enviado (atualização automática).',
@@ -536,12 +544,12 @@ help_admin:
 • \`setup\`, \`reload\`, \`cleanup\`, \`permissions\`, \`status\`, \`uptime\`
 • \`set timezone|language|style\`
 • \`channel timer|warning|patchnote\`
-• \`rank post|drogon|peddler|daily|weekly|beast\`
+• \`rank post|drogon|peddler|daily|weekly|beast|limiteddeal\`
 • \`message\`, \`reset\`, \`patchnote\`, \`summon\``,
 
     about:
 `🐲 **Bot GOT Kingsroad**
-• **Timers & Alertas**: Drogon, Peddler, Reset Diário, Reset Semanal, Beast (avisos 5 min antes e lembretes por DM).
+• **Timers & Alertas**: Drogon, Peddler, Reset Diário, Reset Semanal, Beast, Oferta Limitada (avisos 5 min antes e lembretes por DM).
 • **Ferramentas de Mapa**: /searchmarker com autocompletar e capturas ao vivo.
 • **Lembretes**: DM (add | list | remove | clear | clearall).
 • **Patchnotes & Eventos**: patchnotes auto + captura do calendário.

@@ -2,7 +2,7 @@ const { PermissionsBitField } = require('discord.js');
 const { t } = require('../i18n');
 const { getSettings, updateSettings } = require('./settings');
 
-const emojiRoleMap = { '🔥': 'AlertDrogon', '🧺': 'AlertPeddler', '⏰': 'AlertDaily', '📅': 'AlertWeekly', '🐺': 'AlertBeast' };
+const emojiRoleMap = { '🔥': 'AlertDrogon', '🧺': 'AlertPeddler', '⏰': 'AlertDaily', '📅': 'AlertWeekly', '🐺': 'AlertBeast', '🛍️': 'AlertLimitedDeal' };
 const roleMessageIds = new Map();
 
 async function sendRanksMessage(guild, channel) {

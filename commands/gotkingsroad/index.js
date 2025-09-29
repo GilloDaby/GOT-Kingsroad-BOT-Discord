@@ -4,7 +4,7 @@ const { TZ_SUGGESTIONS, DEFAULT_TZ } = require('../../utils/constants');
 const { tzOf, styleOf, nowInTZ, format12HourTime, formatCountdown, formatDuration } = require('../../utils/time');
 const { getSettings, updateSettings } = require('../../services/settings');
 const { ensureGuildSetup, sendTimerMessage } = require('../../services/setup');
-const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime } = require('../../services/timers');
+const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime, getNextLimitedDealTime } = require('../../services/timers');
 const { getLatestPatchnotePayload } = require('../../services/patchnote');
 const { addReminder, getUserReminders, clearUserRemindersByTimer, clearUserReminders } = require('../../services/reminders');
 const { sendRanksMessage } = require('../../services/ranks');
@@ -13,6 +13,11 @@ const { addCustomTimer, getCustomTimers, removeCustomTimer } = require('../../se
 const { I18N, t } = require('../../i18n');
 
 let botStartedAt = new Date();
+
+const TIMER_TITLES = { drogon:'Drogon', peddler:'Peddler', daily:'Daily', weekly:'Weekly', beast:'Beast', limiteddeal:'Limited Time Deal' };
+const TIMER_UPPER = { drogon:'DROGON', peddler:'PEDDLER', daily:'DAILY', weekly:'WEEKLY', beast:'BEAST', limiteddeal:'LIMITED TIME DEAL' };
+const timerTitle = (key) => TIMER_TITLES[key] || key;
+const timerUpper = (key) => TIMER_UPPER[key] || key?.toUpperCase?.() || key;
 
 const builder = new SlashCommandBuilder()
   .setName('gotkingsroad')
@@ -27,7 +32,7 @@ const builder = new SlashCommandBuilder()
     s.setName('summon').setDescription('Manually summon an alert')
       .addStringOption(o => o.setName('target').setDescription('Which alert').setRequired(true).addChoices(
         { name:'Drogon', value:'drogon' }, { name:'Peddler', value:'peddler' }, { name:'Daily', value:'daily' },
-        { name:'Weekly', value:'weekly' }, { name:'Beast', value:'beast' },
+        { name:'Weekly', value:'weekly' }, { name:'Beast', value:'beast' }, { name:'Limited Time Deal', value:'limiteddeal' },
       ))
   )
   .addSubcommandGroup(g =>
@@ -45,7 +50,7 @@ const builder = new SlashCommandBuilder()
           .addStringOption(o => o.setName('timer').setDescription('Which timer').setRequired(true).addChoices(
             { name:'Drogon', value:'drogon' }, { name:'Peddler', value:'peddler' },
             { name:'Daily', value:'daily' }, { name:'Weekly', value:'weekly' },
-            { name:'Beast', value:'beast' },
+            { name:'Beast', value:'beast' }, { name:'Limited Time Deal', value:'limiteddeal' },
           ))
           .addIntegerOption(o => o.setName('minutes').setDescription('How many minutes before').setRequired(true).setMinValue(1).setMaxValue(1440))
       )
@@ -55,7 +60,7 @@ const builder = new SlashCommandBuilder()
           .addStringOption(o => o.setName('timer').setDescription('Timer').setRequired(true).addChoices(
             { name:'Drogon', value:'drogon' }, { name:'Peddler', value:'peddler' },
             { name:'Daily', value:'daily' }, { name:'Weekly', value:'weekly' },
-            { name:'Beast', value:'beast' },
+            { name:'Beast', value:'beast' }, { name:'Limited Time Deal', value:'limiteddeal' },
           ))
       )
       .addSubcommand(s =>
@@ -63,7 +68,7 @@ const builder = new SlashCommandBuilder()
           .addStringOption(o => o.setName('timer').setDescription('Timer').setRequired(true).addChoices(
             { name:'Drogon', value:'drogon' }, { name:'Peddler', value:'peddler' },
             { name:'Daily', value:'daily' }, { name:'Weekly', value:'weekly' },
-            { name:'Beast', value:'beast' },
+            { name:'Beast', value:'beast' }, { name:'Limited Time Deal', value:'limiteddeal' },
           ))
           .addIntegerOption(o => o.setName('minutes').setDescription('Minutes').setRequired(true))
       )
@@ -103,6 +108,7 @@ const builder = new SlashCommandBuilder()
       .addSubcommand(s => s.setName('weekly').setDescription('Set role for Weekly').addRoleOption(o => o.setName('role').setDescription('Role').setRequired(true)))
       .addSubcommand(s => s.setName('peddler').setDescription('Set role for Peddler').addRoleOption(o => o.setName('role').setDescription('Role').setRequired(true)))
       .addSubcommand(s => s.setName('beast').setDescription('Set role for Beast').addRoleOption(o => o.setName('role').setDescription('Role').setRequired(true)))
+      .addSubcommand(s => s.setName('limiteddeal').setDescription('Set role for Limited Time Deal').addRoleOption(o => o.setName('role').setDescription('Role').setRequired(true)))
   )
   .addSubcommand(s => s.setName('status').setDescription('Show current server configuration'))
   .addSubcommand(s => s.setName('uptime').setDescription('Show bot uptime'))
@@ -306,7 +312,7 @@ async function run(interaction, client) {
         guildId: s.guildId,
         timezone: s.timezone, language: s.language, style: s.style,
         globalTimerChannelId: s.globalTimerChannelId, drogonWarningChannelId: s.drogonWarningChannelId, patchnoteChannelId: s.patchnoteChannelId,
-        drogonRoleId: s.drogonRoleId, peddlerRoleId: s.peddlerRoleId, dailyRoleId: s.dailyRoleId, weeklyRoleId: s.weeklyRoleId, beastRoleId: s.beastRoleId,
+        drogonRoleId: s.drogonRoleId, peddlerRoleId: s.peddlerRoleId, dailyRoleId: s.dailyRoleId, weeklyRoleId: s.weeklyRoleId, beastRoleId: s.beastRoleId, limitedDealRoleId: s.limitedDealRoleId,
         exportedAt: new Date().toISOString(),
       };
       const buff = Buffer.from(JSON.stringify(payload, null, 2), 'utf8');
@@ -322,7 +328,7 @@ async function run(interaction, client) {
         const res = await fetch(att.url);
         const text = await res.text();
         const data = JSON.parse(text);
-        const allowed = ['timezone','language','style','globalTimerChannelId','drogonWarningChannelId','patchnoteChannelId','drogonRoleId','peddlerRoleId','dailyRoleId','weeklyRoleId','beastRoleId'];
+        const allowed = ['timezone','language','style','globalTimerChannelId','drogonWarningChannelId','patchnoteChannelId','drogonRoleId','peddlerRoleId','dailyRoleId','weeklyRoleId','beastRoleId','limitedDealRoleId'];
         const apply = {};
         for (const k of allowed) if (data[k] !== undefined && data[k] !== null && data[k] !== '') apply[k] = data[k];
         if (!Object.keys(apply).length) return interaction.editReply({ content: t('nothing_to_import', settings) });
@@ -349,6 +355,7 @@ async function run(interaction, client) {
       daily:   'dailyRoleId',
       weekly:  'weeklyRoleId',
       beast:   'beastRoleId',
+      limiteddeal: 'limitedDealRoleId',
     }[target];
 
     const roleId = roleField ? s[roleField] : null;
@@ -359,6 +366,7 @@ async function run(interaction, client) {
         daily:   'rank daily',
         weekly:  'rank weekly',
         beast:   'rank beast',
+        limiteddeal: 'rank limiteddeal',
       }[target];
       return interaction.editReply({ content: t('need_rank_cmd', settings, rankCmd) });
     }
@@ -369,25 +377,28 @@ async function run(interaction, client) {
       daily:   getDailyResetTime(),
       weekly:  getWeeklyResetTime(),
       beast:   getNextBeastTime(),
+      limiteddeal: getNextLimitedDealTime(tz),
     };
     const when = nextTimes[target];
     const hour = format12HourTime(when, tz);
-    const prefixEmoji = { drogon:'🔥', peddler:'🧺', daily:'⏰', weekly:'📅', beast:'🐺' }[target];
+    const prefixEmoji = { drogon:'🔥', peddler:'🧺', daily:'⏰', weekly:'📅', beast:'🐺', limiteddeal:'🛍️' }[target];
     const key = {
       drogon:  'drogon_near',
       peddler: 'peddler_near',
       daily:   'daily_near',
       weekly:  'weekly_near',
       beast:   'beast_near',
+      limiteddeal: 'limiteddeal_near',
     }[target];
 
+    const displayName = timerTitle(target);
     const ch = await client.channels.fetch(s.drogonWarningChannelId);
     const msg = await ch.send({
       content: `${prefixEmoji} ${t(key, s, hour)}\n<@&${roleId}>`,
       allowedMentions: { roles: [roleId] },
     });
     setTimeout(() => msg.delete().catch(()=>{}), 5 * 60 * 1000);
-    return interaction.editReply({ content: t('summon_posted', settings, target.charAt(0).toUpperCase()+target.slice(1)) });
+    return interaction.editReply({ content: t('summon_posted', settings, displayName) });
   }
 
   // RANK group
@@ -398,9 +409,9 @@ async function run(interaction, client) {
       await sendRanksMessage(interaction.guild, interaction.channel);
       return interaction.editReply({ content: t('reaction_role_sent', settings) });
     }
-    if (['drogon','daily','weekly','peddler','beast'].includes(sub)) {
+    if (['drogon','daily','weekly','peddler','beast','limiteddeal'].includes(sub)) {
       const role = interaction.options.getRole('role', true);
-      const field = sub === 'drogon' ? 'drogonRoleId' : sub === 'daily' ? 'dailyRoleId' : sub === 'weekly' ? 'weeklyRoleId' : sub === 'peddler' ? 'peddlerRoleId' : 'beastRoleId';
+      const field = sub === 'drogon' ? 'drogonRoleId' : sub === 'daily' ? 'dailyRoleId' : sub === 'weekly' ? 'weeklyRoleId' : sub === 'peddler' ? 'peddlerRoleId' : sub === 'beast' ? 'beastRoleId' : 'limitedDealRoleId';
       await updateSettings(interaction.guildId, { [field]: role.id });
       return interaction.editReply({ content: t('rank_set', settings, sub, `<@&${role.id}>`) });
     }
@@ -421,6 +432,7 @@ async function run(interaction, client) {
       `**${t('label_weekly_role', settings)}:** ${safe(s.weeklyRoleId, 'role')}`,
       `**${t('label_peddler_role', settings)}:** ${safe(s.peddlerRoleId, 'role')}`,
       `**${t('label_beast_role', settings)}:** ${safe(s.beastRoleId, 'role')}`,
+      `**${t('label_limiteddeal_role', settings)}:** ${safe(s.limitedDealRoleId, 'role')}`,
       `**${t('label_timezone', settings)}:** ${s.timezone || DEFAULT_TZ}`,
       `**${t('label_language', settings)}:** ${s.language || 'en'}`,
       `**${t('label_style', settings)}:** ${s.style || 'compact'}`,
@@ -439,12 +451,14 @@ async function run(interaction, client) {
     const nextDa= getDailyResetTime();
     const nextW = getWeeklyResetTime();
     const nextB = getNextBeastTime();
+    const nextL = getNextLimitedDealTime(tz);
     const lines = [
       `🔥 **Drogon:** ${format12HourTime(nextD, tz)} (${t('in_label', settings, formatCountdown(nextD - now))})`,
       `🧺 **Peddler:** ${format12HourTime(nextP, tz)} (${t('in_label', settings, formatCountdown(nextP - now))})`,
       `⏰ **Daily Reset:** ${format12HourTime(nextDa, tz)} (${t('in_label', settings, formatCountdown(nextDa - now))})`,
       `📅 **Weekly Reset:** ${format12HourTime(nextW, tz)} (${t('in_label', settings, formatCountdown(nextW - now))})`,
       `🐺 **Beast:** ${format12HourTime(nextB, tz)} (${t('in_label', settings, formatCountdown(nextB - now))})`,
+      `🛍️ **Limited Time Deal:** ${format12HourTime(nextL, tz)} (${t('in_label', settings, formatCountdown(nextL - now))})`,
     ].join('\n');
     return interaction.editReply({ content: `⏱️ **${t('next_timers_title', settings)}**\n${lines}` });
   }
@@ -541,14 +555,16 @@ async function run(interaction, client) {
         weekly:  getWeeklyResetTime(),
         peddler: getNextPeddlerTime(tz),
         beast:   getNextBeastTime(),
+        limiteddeal: getNextLimitedDealTime(tz),
       };
       const targetTime = targets[timerType];
       const diffMin = Math.floor((targetTime - new Date()) / 60000);
+      const prettyName = timerUpper(timerType);
       if (diffMin <= minutes) {
-        return interaction.editReply({ content: t('reminder_too_late', settings, timerType.toUpperCase(), diffMin, minutes) });
+        return interaction.editReply({ content: t('reminder_too_late', settings, prettyName, diffMin, minutes) });
       }
       try {
-        await interaction.user.send(t('reminder_dm_confirm', settings, minutes, timerType.toUpperCase()));
+        await interaction.user.send(t('reminder_dm_confirm', settings, minutes, prettyName));
       } catch (e) {
         if (e.code === 50007) {
           return interaction.editReply({ content: t('reminder_dm_closed', settings) });
@@ -556,7 +572,7 @@ async function run(interaction, client) {
         return interaction.editReply({ content: t('reminder_dm_unknown', settings) });
       }
       await addReminder(interaction.user.id, timerType, minutes, interaction.guildId);
-      return interaction.editReply({ content: t('reminder_set', settings, minutes, timerType.toUpperCase()) });
+      return interaction.editReply({ content: t('reminder_set', settings, minutes, prettyName) });
     }
     if (sub === 'remove') {
       const timer   = interaction.options.getString('timer', true);
@@ -564,19 +580,20 @@ async function run(interaction, client) {
       const db = require('../../db');
       const [res] = await db.query('DELETE FROM reminders WHERE userId = ? AND timer = ? AND minutes = ?', [interaction.user.id, timer, minutes]);
       const ok = (res.affectedRows > 0);
-      return interaction.editReply({ content: ok ? t('reminder_removed', settings, timer.toUpperCase(), minutes) : t('reminder_not_found', settings, timer.toUpperCase(), minutes) });
+      const pretty = timerUpper(timer);
+      return interaction.editReply({ content: ok ? t('reminder_removed', settings, pretty, minutes) : t('reminder_not_found', settings, pretty, minutes) });
     }
     if (sub === 'list') {
       const list = await getUserReminders(interaction.user.id);
       if (!list.length) return interaction.editReply({ content: t('reminders_empty', settings) });
       const groups = list.reduce((acc, r) => { (acc[r.timer] ||= []).push(r.minutes); return acc; }, {});
-      const lines = Object.entries(groups).sort((a,b)=>a[0].localeCompare(b[0])).map(([timer, mins]) => `• **${timer.toUpperCase()}** – ${[...new Set(mins)].sort((a,b)=>a-b).join(', ')} min`);
+      const lines = Object.entries(groups).sort((a,b)=>a[0].localeCompare(b[0])).map(([timer, mins]) => `• **${timerUpper(timer)}** – ${[...new Set(mins)].sort((a,b)=>a-b).join(', ')} min`);
       return interaction.editReply({ content: `${t('reminders_title', settings)}\n${lines.join('\n')}` });
     }
     if (sub === 'clear') {
       const timer = interaction.options.getString('timer', true);
       await clearUserRemindersByTimer(interaction.user.id, timer);
-      return interaction.editReply({ content: t('reminders_cleared_one', settings, timer.toUpperCase()) });
+      return interaction.editReply({ content: t('reminders_cleared_one', settings, timerUpper(timer)) });
     }
     if (sub === 'clearall') {
       await clearUserReminders(interaction.user.id);

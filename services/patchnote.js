@@ -18,7 +18,8 @@ function getLatestPatchnoteEmbed(settings = {}) {
 • 🌐 **Full i18n coverage**: FR / EN / ES / PT-BR for *all* user/admin replies (+ /about localized).
 • 👤 **Private /about**: auto-ephemeral when relevant (admin/private contexts).
 • 🐺 **Beast Timer** (Toronto/EST base): **03:00, 07:00, 11:00, 15:00, 19:00, 23:00** (shown in your server TZ).
-• 🔔 **DM Reminders**: \`add | list | remove | clear | clearall\` per timer (Drogon/Peddler/Daily/Weekly/Beast).
+• 🛍️ **Limited Time Deal**: **05:00, 11:00, 17:00, 23:00** (shown in your server TZ).
+• 🔔 **DM Reminders**: \`add | list | remove | clear | clearall\` per timer (Drogon/Peddler/Daily/Weekly/Beast/Limited Time Deal).
 • 🧭 **/summon**: manually ping one alert (role-gated, localized).
 • 🗂️ **Config export/import** (JSON) and **Permissions check** command.
 • 🕒 **Timezone autocomplete** (IANA) incl. **UTC (Global)**.
@@ -26,8 +27,8 @@ function getLatestPatchnoteEmbed(settings = {}) {
 • 📝 **Patchnote tracking**: auto-update on startup; one-click \`/gotkingsroad patchnote\`.
 
 **IMPROVEMENTS**
-• ⏱️ **Timer message** (compact/embed) shows **Drogon, Peddler, Daily, Weekly, Beast** with live countdowns.
-• 📡 “**5-min before**” pings for all timers (roles mention once per occurrence).
+• ⏱️ **Timer message** (compact/embed) shows **Drogon, Peddler, Daily, Weekly, Beast, Limited Time Deal** with live countdowns.
+• 📡 “**5-min before**” pings for all timers (roles mention once per occurrence, now includes Limited Time Deal).
 • 🧩 **Auto-setup** creates categories/channels/roles & posts ranks selector.
 • 🔁 **/reload** regenerates patchnote & timer if missing.
 • 🧹 **/cleanup**: keeps newest ranks message, deletes duplicates, and re-saves its ID.
@@ -51,7 +52,7 @@ function getLatestPatchnoteEmbed(settings = {}) {
   • Prefs: \`set timezone|language|style\` (TZ autocomplete, **UTC**)
   • Channels: \`channel timer|warning|patchnote\`
   • Timers: \`message\` (post/refresh), \`reset\` (delete)
-  • Ranks: \`rank post\`, \`rank drogon|peddler|daily|weekly|beast\`
+  • Ranks: \`rank post\`, \`rank drogon|peddler|daily|weekly|beast|limiteddeal\`
   • Misc: \`status\`, \`uptime\`, \`summon\`, \`patchnote\`
 
 🔗 https://got-kingsroad.com/`
@@ -65,7 +66,8 @@ function getLatestPatchnoteEmbed(settings = {}) {
 • 🌐 **i18n complet** : FR / EN / ES / PT-BR pour *toutes* les réponses (incl. \`/about\` traduit).
 • 👤 **/about privé** : réponse éphémère automatiquement selon le contexte.
 • 🐺 **Timer Beast** (base Toronto/EST) : **03:00, 07:00, 11:00, 15:00, 19:00, 23:00** (affiché dans le TZ du serveur).
-• 🔔 **Rappels en DM** : \`add | list | remove | clear | clearall\` par timer (Drogon/Peddler/Daily/Weekly/Beast).
+• 🛍️ **Offre limitée** : **05:00, 11:00, 17:00, 23:00** (affichée dans le TZ du serveur).
+• 🔔 **Rappels en DM** : \`add | list | remove | clear | clearall\` par timer (Drogon/Peddler/Daily/Weekly/Beast/Offre limitée).
 • 🧭 **/summon** : ping manuel d’une alerte (avec rôle & texte localisé).
 • 🗂️ **Export/Import de config** (JSON) et **vérification des permissions**.
 • 🕒 **Autocomplete des fuseaux** (IANA) incluant **UTC (Global)**.
@@ -73,8 +75,8 @@ function getLatestPatchnoteEmbed(settings = {}) {
 • 📝 **Suivi du patchnote** : MAJ auto au démarrage ; commande \`/gotkingsroad patchnote\`.
 
 **AMÉLIORATIONS**
-• ⏱️ **Message Timers** (compact/embed) : **Drogon, Peddler, Daily, Weekly, Beast** avec décomptes en direct.
-• 📡 Ping “**5 min avant**” pour tous les timers (mention une fois par occurrence).
+• ⏱️ **Message Timers** (compact/embed) : **Drogon, Peddler, Daily, Weekly, Beast, Offre limitée** avec décomptes en direct.
+• 📡 Ping “**5 min avant**” pour tous les timers (mention une fois par occurrence, incl. Offre limitée).
 • 🧩 **Auto-setup** : crée catégories/salons/rôles & poste le sélecteur des ranks.
 • 🔁 **/reload** régénère patchnote & timer si manquants.
 • 🧹 **/cleanup** : garde le message de ranks le plus récent, supprime les doublons, ré-enregistre l’ID.
@@ -98,7 +100,7 @@ function getLatestPatchnoteEmbed(settings = {}) {
   • Préfs : \`set timezone|language|style\` (autocomplete, **UTC**)
   • Salons : \`channel timer|warning|patchnote\`
   • Timers : \`message\` (poste/refresh), \`reset\` (supprime)
-  • Rôles : \`rank post\`, \`rank drogon|peddler|daily|weekly|beast\`
+  • Rôles : \`rank post\`, \`rank drogon|peddler|daily|weekly|beast|limiteddeal\`
   • Divers : \`status\`, \`uptime\`, \`summon\`, \`patchnote\`
 
 🔗 https://got-kingsroad.com/`
@@ -112,7 +114,8 @@ function getLatestPatchnoteEmbed(settings = {}) {
 • 🌐 **i18n completo**: FR / EN / ES / PT-BR para *todas* las respuestas (incl. \`/about\`).
 • 👤 **/about privado**: respuesta efímera cuando corresponde.
 • 🐺 **Timer Beast** (Toronto/EST): **03:00, 07:00, 11:00, 15:00, 19:00, 23:00** (mostrado en la zona del servidor).
-• 🔔 **Recordatorios por DM**: \`add | list | remove | clear | clearall\` por temporizador.
+• 🛍️ **Oferta limitada**: **05:00, 11:00, 17:00, 23:00** (mostrada en la zona del servidor).
+• 🔔 **Recordatorios por DM**: \`add | list | remove | clear | clearall\` por temporizador (Drogon/Peddler/Daily/Weekly/Beast/Oferta Limitada).
 • 🧭 **/summon**: anuncia manualmente una alerta (con rol y texto localizado).
 • 🗂️ **Exportar/Importar config** (JSON) y **chequeo de permisos**.
 • 🕒 **Autocompletado de zona horaria** (IANA) incl. **UTC (Global)**.
@@ -120,8 +123,8 @@ function getLatestPatchnoteEmbed(settings = {}) {
 • 📝 **Patchnote** con actualización automática al iniciar; comando \`/gotkingsroad patchnote\`.
 
 **MEJORAS**
-• ⏱️ **Mensaje de timers** (compact/embed) con **Drogon, Peddler, Daily, Weekly, Beast** y cuenta regresiva.
-• 📡 Avisos “**5 min antes**” para todos los temporizadores (una vez por ocurrencia).
+• ⏱️ **Mensaje de timers** (compact/embed) con **Drogon, Peddler, Daily, Weekly, Beast, Oferta Limitada** y cuenta regresiva.
+• 📡 Avisos “**5 min antes**” para todos los temporizadores (una vez por ocurrencia, incluye Oferta Limitada).
 • 🧩 **Auto-setup**: crea categorías/canales/roles y publica selector de rangos.
 • 🔁 **/reload** regenera patchnote & timer si faltan.
 • 🧹 **/cleanup**: conserva el mensaje de rangos más reciente, elimina duplicados y guarda su ID.
@@ -145,7 +148,7 @@ function getLatestPatchnoteEmbed(settings = {}) {
   • Prefs: \`set timezone|language|style\` (autocomplete, **UTC**)
   • Canales: \`channel timer|warning|patchnote\`
   • Timers: \`message\` (post/refresh), \`reset\` (delete)
-  • Rangos: \`rank post\`, \`rank drogon|peddler|daily|weekly|beast\`
+  • Rangos: \`rank post\`, \`rank drogon|peddler|daily|weekly|beast|limiteddeal\`
   • Varios: \`status\`, \`uptime\`, \`summon\`, \`patchnote\`
 
 🔗 https://got-kingsroad.com/`
@@ -159,7 +162,8 @@ function getLatestPatchnoteEmbed(settings = {}) {
 • 🌐 **i18n completo**: FR / EN / ES / PT-BR em *todas* as respostas (incl. \`/about\`).
 • 👤 **/about privado**: resposta efêmera quando apropriado.
 • 🐺 **Timer Beast** (Toronto/EST): **03:00, 07:00, 11:00, 15:00, 19:00, 23:00** (mostrado no fuso do servidor).
-• 🔔 **Lembretes por DM**: \`add | list | remove | clear | clearall\` por timer.
+• 🛍️ **Oferta limitada**: **05:00, 11:00, 17:00, 23:00** (mostrada no fuso do servidor).
+• 🔔 **Lembretes por DM**: \`add | list | remove | clear | clearall\` por timer (Drogon/Peddler/Daily/Weekly/Beast/Oferta Limitada).
 • 🧭 **/summon**: avisa manualmente uma alerta (com cargo e texto localizado).
 • 🗂️ **Exportar/Importar config** (JSON) e **checagem de permissões**.
 • 🕒 **Autocomplete de fuso** (IANA) incluindo **UTC (Global)**.
@@ -167,8 +171,8 @@ function getLatestPatchnoteEmbed(settings = {}) {
 • 📝 **Patchnote** com atualização automática ao iniciar; comando \`/gotkingsroad patchnote\`.
 
 **MELHORIAS**
-• ⏱️ **Mensagem de timers** (compact/embed) com **Drogon, Peddler, Daily, Weekly, Beast** e contagem regressiva.
-• 📡 Avisos “**5 min antes**” para todos os timers (uma vez por ocorrência).
+• ⏱️ **Mensagem de timers** (compact/embed) com **Drogon, Peddler, Daily, Weekly, Beast, Oferta Limitada** e contagem regressiva.
+• 📡 Avisos “**5 min antes**” para todos os timers (uma vez por ocorrência, inclui Oferta Limitada).
 • 🧩 **Auto-setup** cria categorias/canais/cargos e publica o seletor de ranks.
 • 🔁 **/reload** regenera patchnote & timer se faltarem.
 • 🧹 **/cleanup** mantém a mensagem de ranks mais recente, apaga duplicatas e salva o ID.
@@ -192,7 +196,7 @@ function getLatestPatchnoteEmbed(settings = {}) {
   • Preferências: \`set timezone|language|style\` (autocomplete, **UTC**)
   • Canais: \`channel timer|warning|patchnote\`
   • Timers: \`message\` (post/refresh), \`reset\` (delete)
-  • Ranks: \`rank post\`, \`rank drogon|peddler|daily|weekly|beast\`
+  • Ranks: \`rank post\`, \`rank drogon|peddler|daily|weekly|beast|limiteddeal\`
   • Vários: \`status\`, \`uptime\`, \`summon\`, \`patchnote\`
 
 🔗 https://got-kingsroad.com/`

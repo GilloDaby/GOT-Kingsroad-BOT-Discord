@@ -1,6 +1,6 @@
 const { PermissionsBitField } = require('discord.js');
 const { getSettings, updateSettings } = require('../services/settings');
-const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime } = require('../services/timers');
+const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime, getNextLimitedDealTime } = require('../services/timers');
 const { tzOf, nowInTZ, format12HourTime } = require('../utils/time');
 const { buildTimerBody } = require('../services/setup');
 
@@ -26,6 +26,7 @@ async function updateTimerMessageLoop(client) {
       const nextDaily   = getDailyResetTime();
       const nextWeekly  = getWeeklyResetTime();
       const nextBeast   = getNextBeastTime();
+      const nextLimitedDeal = getNextLimitedDealTime(tz);
 
       const gid = settings.guildId ?? 'default';
       if (!warningSentFlags.has(gid)) warningSentFlags.set(gid, {});
@@ -56,6 +57,10 @@ async function updateTimerMessageLoop(client) {
       if (nextBeast - now > 0 && nextBeast - now <= FIVE_MIN && sent.lastBeastTime !== keyOf(nextBeast)) {
         await sendWarn(settings.beastRoleId, `🐺 Beast near **${format12HourTime(nextBeast, tz)}**`);
         sent.lastBeastTime = keyOf(nextBeast);
+      }
+      if (nextLimitedDeal - now > 0 && nextLimitedDeal - now <= FIVE_MIN && sent.lastLimitedDealTime !== keyOf(nextLimitedDeal)) {
+        await sendWarn(settings.limitedDealRoleId, `🛍️ Limited Time Deal near **${format12HourTime(nextLimitedDeal, tz)}**`);
+        sent.lastLimitedDealTime = keyOf(nextLimitedDeal);
       }
 
     } catch (err) {
