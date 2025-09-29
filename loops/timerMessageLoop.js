@@ -63,6 +63,7 @@ async function updateTimerMessageLoop(client) {
 
       if (warnChannel) await pruneOldWarnings(warnChannel);
 
+
       async function sendWarn(roleId, content) {
         if (!roleId || !warnChannel) return;
         const msg = await warnChannel.send({ content: `${content}\n<@&${roleId}>`, allowedMentions: { roles: [roleId] } });
