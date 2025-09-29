@@ -10,6 +10,7 @@ async function updateTimerMessageLoop(client) {
   const db = require('../db');
   const [rows] = await db.query('SELECT * FROM settings WHERE globalTimerChannelId IS NOT NULL AND timerMessageId IS NOT NULL');
   const FIVE_MIN = 5 * 60 * 1000;
+  const TWO_HOURS = 2 * 60 * 60 * 1000;
   const keyOf = (d) => d?.getTime?.() ?? 0;
 
   for (const settings of rows) {
@@ -32,10 +33,40 @@ async function updateTimerMessageLoop(client) {
       if (!warningSentFlags.has(gid)) warningSentFlags.set(gid, {});
       const sent = warningSentFlags.get(gid);
 
+      const warnChannel = settings.drogonWarningChannelId
+        ? await client.channels.fetch(settings.drogonWarningChannelId).catch(() => null)
+        : null;
+
+      async function pruneOldWarnings(channel) {
+        const cutoff = Date.now() - TWO_HOURS;
+        const MAX_BATCHES = 5;
+        let lastId;
+
+        try {
+          for (let batchIndex = 0; batchIndex < MAX_BATCHES; batchIndex += 1) {
+            const batch = await channel.messages.fetch({ limit: 100, before: lastId ?? undefined });
+            if (!batch.size) break;
+
+            for (const message of batch.values()) {
+              if (message.author?.id === client.user?.id && message.createdTimestamp < cutoff) {
+                await message.delete().catch(() => {});
+              }
+            }
+
+            if (batch.size < 100) break;
+            lastId = batch.last().id;
+          }
+        } catch (err) {
+          // ignore pruning errors to avoid breaking the loop
+        }
+      }
+
+      if (warnChannel) await pruneOldWarnings(warnChannel);
+
       async function sendWarn(roleId, content) {
-        if (!roleId || !settings.drogonWarningChannelId) return;
-        const warnCh = await client.channels.fetch(settings.drogonWarningChannelId);
-        await warnCh.send({ content: `${content}\n<@&${roleId}>`, allowedMentions: { roles: [roleId] } });
+        if (!roleId || !warnChannel) return;
+        const msg = await warnChannel.send({ content: `${content}\n<@&${roleId}>`, allowedMentions: { roles: [roleId] } });
+        if (msg) setTimeout(() => msg.delete().catch(() => {}), TWO_HOURS);
       }
 
       if (nextDrogon - now > 0 && nextDrogon - now <= FIVE_MIN && sent.lastDrogonTime !== keyOf(nextDrogon)) {
