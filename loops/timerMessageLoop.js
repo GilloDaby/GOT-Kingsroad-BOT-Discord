@@ -1,4 +1,3 @@
-const { PermissionsBitField } = require('discord.js');
 const { getSettings, updateSettings } = require('../services/settings');
 const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime, getNextLimitedDealTime } = require('../services/timers');
 const { tzOf, nowInTZ, format12HourTime } = require('../utils/time');
@@ -33,11 +32,50 @@ async function updateTimerMessageLoop(client) {
       if (!warningSentFlags.has(gid)) warningSentFlags.set(gid, {});
       const sent = warningSentFlags.get(gid);
 
+      let warnChannel;
+      let cleanedOldWarnings = false;
+
+      async function getWarnChannel() {
+        if (!settings.drogonWarningChannelId) return null;
+        if (!warnChannel) {
+          warnChannel = await client.channels.fetch(settings.drogonWarningChannelId).catch(() => null);
+        }
+        return warnChannel;
+      }
+
+      async function cleanupOldWarnings(channel) {
+        if (!channel) return;
+        const cutoff = Date.now() - TWO_HOURS;
+        try {
+          const messages = await channel.messages.fetch({ limit: 100 });
+          for (const message of messages.values()) {
+            if (message.createdTimestamp < cutoff && message.author?.id === client.user?.id) {
+              await message.delete().catch(() => {});
+            }
+          }
+        } catch (err) {
+          // ignore cleanup errors
+        }
+      }
+
       async function sendWarn(roleId, content) {
-        if (!roleId || !settings.drogonWarningChannelId) return;
-        const warnCh = await client.channels.fetch(settings.drogonWarningChannelId);
+        if (!roleId) return;
+        const warnCh = await getWarnChannel();
+        if (!warnCh) return;
+        if (!cleanedOldWarnings) {
+          cleanedOldWarnings = true;
+          await cleanupOldWarnings(warnCh);
+        }
         const msg = await warnCh.send({ content: `${content}\n<@&${roleId}>`, allowedMentions: { roles: [roleId] } });
         if (msg) setTimeout(() => msg.delete().catch(() => {}), TWO_HOURS);
+      }
+
+      if (!cleanedOldWarnings) {
+        const warnCh = await getWarnChannel();
+        if (warnCh) {
+          cleanedOldWarnings = true;
+          await cleanupOldWarnings(warnCh);
+        }
       }
 
       if (nextDrogon - now > 0 && nextDrogon - now <= FIVE_MIN && sent.lastDrogonTime !== keyOf(nextDrogon)) {
