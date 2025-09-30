@@ -7,9 +7,7 @@ const { I18N, t, langOf } = require('../i18n');
 const { getNextDrogonTime, getNextPeddlerTime, getDailyResetTime, getWeeklyResetTime, getNextBeastTime, getNextLimitedDealTime } = require('./timers');
 
 async function buildTimerBody(settings) {
-  const { formatCountdown, nowInTZ } = require('../utils/time');
   const tz = tzOf(settings);
-  const now        = nowInTZ(tz);
   const nextDrogon = getNextDrogonTime(tz);
   const nextPeddler= getNextPeddlerTime(tz);
   const nextDaily  = getDailyResetTime();
@@ -17,13 +15,15 @@ async function buildTimerBody(settings) {
   const nextBeast  = getNextBeastTime();
   const nextLimitedDeal = getNextLimitedDealTime(tz);
 
+  const toRelative = (date) => `<t:${Math.floor(date.getTime() / 1000)}:R>`;
+
   const lines = [
-    `⏰ **Daily Reset**: ${formatCountdown(nextDaily - now)}`,
-    `🔥 **Drogon**: ${formatCountdown(nextDrogon - now)}`,
-    `📅 **Weekly Reset**: ${formatCountdown(nextWeekly - now)}`,
-    `🔔 **Peddler**: ${formatCountdown(nextPeddler - now)}`,
-    `🐺 **Beast**: ${formatCountdown(nextBeast - now)}`,
-    `🛍️ **Limited Time Deal**: ${formatCountdown(nextLimitedDeal - now)}`
+    `⏰ **Daily Reset**: ${toRelative(nextDaily)}`,
+    `🔥 **Drogon**: ${toRelative(nextDrogon)}`,
+    `📅 **Weekly Reset**: ${toRelative(nextWeekly)}`,
+    `🔔 **Peddler**: ${toRelative(nextPeddler)}`,
+    `🐺 **Beast**: ${toRelative(nextBeast)}`,
+    `🛍️ **Limited Time Deal**: ${toRelative(nextLimitedDeal)}`
   ];
 
   if (styleOf(settings) === 'embed') {
