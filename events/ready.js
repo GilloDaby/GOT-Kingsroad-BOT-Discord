@@ -1,5 +1,21 @@
 const { updateTimerMessageLoop } = require('../loops/timerMessageLoop');
 const { tickReminders } = require('../loops/remindersLoop');
+
+const TIMER_REFRESH_INTERVAL = 10_000;
+
+let isTimerLoopRunning = false;
+
+async function runTimerLoop(client) {
+  if (isTimerLoopRunning) return;
+  isTimerLoopRunning = true;
+  try {
+    await updateTimerMessageLoop(client);
+  } catch (err) {
+    console.error('❌ Timer refresh error:', err);
+  } finally {
+    isTimerLoopRunning = false;
+  }
+}
 const { getSettings, updateSettings } = require('../services/settings');
 const { getLatestPatchnotePayload } = require('../services/patchnote');
 
@@ -23,7 +39,8 @@ module.exports = (client) => {
       console.error('❌ Failed to check ranks message IDs:', err);
     }
 
-    setInterval(() => updateTimerMessageLoop(client).catch(()=>{}), 5000);
+    await runTimerLoop(client);
+    setInterval(() => runTimerLoop(client), TIMER_REFRESH_INTERVAL);
     const botStart = new Date();
     setInterval(() => tickReminders(client, botStart).catch(()=>{}), 5000);
 
