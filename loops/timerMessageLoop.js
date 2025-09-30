@@ -22,15 +22,6 @@ async function updateTimerMessageLoop(client) {
         channelCache.set(settings.globalTimerChannelId, channel);
       }
 
-      let message = messageCache.get(settings.timerMessageId);
-      if (!message || message.channelId !== channel.id) {
-        message = channel.messages.cache.get(settings.timerMessageId) || await channel.messages.fetch(settings.timerMessageId);
-        messageCache.set(settings.timerMessageId, message);
-      }
-      const body = await buildTimerBody(settings);
-      message = await message.edit(body);
-      messageCache.set(settings.timerMessageId, message);
-
       const tz = tzOf(settings);
       const now = nowInTZ(tz);
       const nextDrogon  = getNextDrogonTime(tz);
@@ -114,6 +105,15 @@ async function updateTimerMessageLoop(client) {
         await sendWarn(settings.limitedDealRoleId, `🛍️ Limited Time Deal near **${format12HourTime(nextLimitedDeal, tz)}**`);
         sent.lastLimitedDealTime = keyOf(nextLimitedDeal);
       }
+
+      let message = messageCache.get(settings.timerMessageId);
+      if (!message || message.channelId !== channel.id) {
+        message = channel.messages.cache.get(settings.timerMessageId) || await channel.messages.fetch(settings.timerMessageId);
+        messageCache.set(settings.timerMessageId, message);
+      }
+      const body = await buildTimerBody(settings);
+      message = await message.edit(body);
+      messageCache.set(settings.timerMessageId, message);
 
     } catch (err) {
       if (err?.code === 10008) { // Unknown Message
