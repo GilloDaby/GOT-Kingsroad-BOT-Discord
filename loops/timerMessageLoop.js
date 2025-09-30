@@ -4,6 +4,8 @@ const { tzOf, nowInTZ, format12HourTime } = require('../utils/time');
 const { buildTimerBody } = require('../services/setup');
 
 const warningSentFlags = new Map();
+const channelCache = new Map();
+const messageCache = new Map();
 
 async function updateTimerMessageLoop(client) {
   const db = require('../db');
@@ -14,10 +16,20 @@ async function updateTimerMessageLoop(client) {
 
   for (const settings of rows) {
     try {
-      const channel = await client.channels.fetch(settings.globalTimerChannelId);
-      const message = await channel.messages.fetch(settings.timerMessageId);
+      let channel = channelCache.get(settings.globalTimerChannelId);
+      if (!channel) {
+        channel = await client.channels.fetch(settings.globalTimerChannelId);
+        channelCache.set(settings.globalTimerChannelId, channel);
+      }
+
+      let message = messageCache.get(settings.timerMessageId);
+      if (!message || message.channelId !== channel.id) {
+        message = channel.messages.cache.get(settings.timerMessageId) || await channel.messages.fetch(settings.timerMessageId);
+        messageCache.set(settings.timerMessageId, message);
+      }
       const body = await buildTimerBody(settings);
-      await message.edit(body);
+      message = await message.edit(body);
+      messageCache.set(settings.timerMessageId, message);
 
       const tz = tzOf(settings);
       const now = nowInTZ(tz);
@@ -105,9 +117,12 @@ async function updateTimerMessageLoop(client) {
 
     } catch (err) {
       if (err?.code === 10008) { // Unknown Message
+        messageCache.delete(settings.timerMessageId);
         await updateSettings(settings.guildId, { timerMessageId: null });
         console.warn(`⚠️ Timer message missing for guild ${settings.guildId}. Cleared stored timerMessageId.`);
       } else if (err?.code === 10003) { // Unknown Channel
+        channelCache.delete(settings.globalTimerChannelId);
+        messageCache.delete(settings.timerMessageId);
         await updateSettings(settings.guildId, { globalTimerChannelId: null, timerMessageId: null });
         console.warn(`⚠️ Timer channel missing for guild ${settings.guildId}. Cleared stored channel and message IDs.`);
       } else if (err?.code === 50001 || err?.code === 50013) { // Missing access / perms
