@@ -104,8 +104,17 @@ async function updateTimerMessageLoop(client) {
       }
 
     } catch (err) {
-      // message or channel might be gone
-      // console.warn(`[Timer Update] ${settings.guildId}:`, err.message);
+      if (err?.code === 10008) { // Unknown Message
+        await updateSettings(settings.guildId, { timerMessageId: null });
+        console.warn(`⚠️ Timer message missing for guild ${settings.guildId}. Cleared stored timerMessageId.`);
+      } else if (err?.code === 10003) { // Unknown Channel
+        await updateSettings(settings.guildId, { globalTimerChannelId: null, timerMessageId: null });
+        console.warn(`⚠️ Timer channel missing for guild ${settings.guildId}. Cleared stored channel and message IDs.`);
+      } else if (err?.code === 50001 || err?.code === 50013) { // Missing access / perms
+        console.warn(`⚠️ Missing access to update timer for guild ${settings.guildId}: ${err.message}`);
+      } else {
+        console.warn(`[Timer Update] ${settings.guildId}:`, err);
+      }
     }
   }
 }
