@@ -1,4 +1,4 @@
-const { REST, Routes, MessageFlags } = require('discord.js');
+const { REST, Routes } = require('discord.js');
 const gotkingsroad = require('../commands/gotkingsroad');
 
 async function registerSlashCommands(client, token, clientId) {
@@ -21,7 +21,7 @@ function routeInteractions(client) {
     } catch (e) {
       console.error('[interaction error]', e);
       if (!interaction.replied && !interaction.deferred) {
-        await interaction.reply({ content: '❌ Error while processing your command.', flags: MessageFlags.Ephemeral }).catch(()=>{});
+        await interaction.reply({ content: '❌ Error while processing your command.', ephemeral: true }).catch(()=>{});
       } else {
         await interaction.editReply({ content: '❌ Error while processing your command.' }).catch(()=>{});
       }

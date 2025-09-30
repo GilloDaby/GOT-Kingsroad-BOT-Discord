@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, ChannelType, PermissionsBitField, AttachmentBuilder, MessageFlags } = require('discord.js');
+const { SlashCommandBuilder, ChannelType, PermissionsBitField, AttachmentBuilder } = require('discord.js');
 const { DateTime } = require('luxon');
 const { TZ_SUGGESTIONS, DEFAULT_TZ } = require('../../utils/constants');
 const { tzOf, styleOf, nowInTZ, format12HourTime, formatCountdown, formatDuration } = require('../../utils/time');
@@ -13,11 +13,6 @@ const { addCustomTimer, getCustomTimers, removeCustomTimer } = require('../../se
 const { I18N, t } = require('../../i18n');
 
 let botStartedAt = new Date();
-
-const withEphemeralFlag = (options, isEphemeral) => {
-  if (!isEphemeral) return options;
-  return { ...options, flags: MessageFlags.Ephemeral };
-};
 
 const TIMER_TITLES = { drogon:'Drogon', peddler:'Peddler', daily:'Daily', weekly:'Weekly', beast:'Beast', limiteddeal:'Limited Time Deal' };
 const TIMER_UPPER = { drogon:'DROGON', peddler:'PEDDLER', daily:'DAILY', weekly:'WEEKLY', beast:'BEAST', limiteddeal:'LIMITED TIME DEAL' };
@@ -163,11 +158,11 @@ async function run(interaction, client) {
 
   if (interaction.guild && (adminCommands.has(sub) || adminGroups.has(group))) {
     if (!interaction.memberPermissions?.has(PermissionsBitField.Flags.Administrator)) {
-      return interaction.reply(withEphemeralFlag({ content: t('admin_only', settings) }, true));
+      return interaction.reply({ content: t('admin_only', settings), ephemeral: true });
     }
   }
   if (!interaction.deferred && !interaction.replied) {
-    await interaction.deferReply(withEphemeralFlag({}, shouldBePrivate));
+    await interaction.deferReply({ ephemeral: shouldBePrivate });
   }
 
   // ADMIN
@@ -469,7 +464,8 @@ async function run(interaction, client) {
   }
   if (sub === 'about') {
     return interaction.editReply({
-      content: t('about', settings)
+      content: t('about', settings),
+      ephemeral: shouldBePrivate
     });
   }
   if (sub === 'help') {
@@ -518,10 +514,11 @@ async function run(interaction, client) {
       const { captureCalendarScreenshot } = require('../../services/calendar');
       const screenshot = await captureCalendarScreenshot();
       const attachment = new AttachmentBuilder(screenshot, { name: 'calendar.png' });
-      await interaction.followUp(withEphemeralFlag({
+      await interaction.followUp({
         content: t('upcoming_events', settings),
-        files: [attachment]
-      }, shouldBePrivate));
+        files: [attachment],
+        ephemeral: shouldBePrivate
+      });
       return interaction.editReply({ content: t('calendar_sent', settings) });
     } catch (e) {
       return interaction.editReply({ content: t('calendar_error', settings) });
@@ -532,12 +529,12 @@ async function run(interaction, client) {
     const name = interaction.options.getString('name', true);
     const fileName = `screenshot-${name.replace(/'/g, '').replace(/\s/g, '_')}.webp`;
     const imageUrl = `https://got-kingsroad.com/botdiscord/screenshots/${fileName}`;
-    await interaction.followUp(withEphemeralFlag({ content: `📍 **${name}**` }, shouldBePrivate));
+    await interaction.followUp({ content: `📍 **${name}**`, ephemeral: shouldBePrivate });
     try {
       const fetch = (...args) => import('node-fetch').then(({ default: f }) => f(...args));
       const head = await fetch(imageUrl, { method: 'HEAD' });
       if (head.ok) {
-        await interaction.followUp(withEphemeralFlag({ embeds: [{ title: `${t('screenshot_label', settings)} ${name}`, image: { url: imageUrl }, color: 0xF4C542 }] }, shouldBePrivate));
+        await interaction.followUp({ embeds: [{ title: `${t('screenshot_label', settings)} ${name}`, image: { url: imageUrl }, color: 0xF4C542 }], ephemeral: shouldBePrivate });
         return interaction.editReply({ content: t('done', settings) });
       }
       return interaction.editReply({ content: t('searchmarker_no_screenshot', settings, name) });
