@@ -40,7 +40,7 @@ try {
         ]
     );
 
-$stmt = $pdo->prepare('SELECT drogonRoleId, dailyRoleId, weeklyRoleId, peddlerRoleId, globalTimerChannelId, drogonWarningChannelId FROM settings WHERE guildId = ?');
+    $stmt = $pdo->prepare('SELECT drogonRoleId, peddlerRoleId, dailyRoleId, weeklyRoleId, beastRoleId, limitedDealRoleId, globalTimerChannelId, drogonWarningChannelId, patchnoteChannelId, botTutorialChannelId FROM settings WHERE guildId = ?');
     $stmt->execute([$guildId]);
     $config = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
 } catch (PDOException $e) {
