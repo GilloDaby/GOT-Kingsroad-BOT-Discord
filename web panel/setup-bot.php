@@ -44,8 +44,8 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
   <style>
     body.setup-page {
       font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: radial-gradient(120% 120% at 50% 0%, #0f172a 0%, #020617 55%, #000000 100%);
-      color: #e2e8f0;
+      background: linear-gradient(180deg, #0b0d13 0%, #161616 45%, #0b0d13 100%);
+      color: #f3f4f6;
       min-height: 100vh;
     }
 
@@ -60,9 +60,9 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
       content: '';
       position: fixed;
       inset: 0;
-      background: radial-gradient(circle at 15% 20%, rgba(56, 189, 248, 0.18), transparent 45%),
-        radial-gradient(circle at 85% 10%, rgba(217, 119, 6, 0.18), transparent 40%),
-        radial-gradient(circle at 80% 80%, rgba(59, 130, 246, 0.12), transparent 55%);
+      background: radial-gradient(circle at 18% 20%, rgba(250, 204, 21, 0.08), transparent 48%),
+        radial-gradient(circle at 82% 8%, rgba(253, 186, 116, 0.08), transparent 42%),
+        radial-gradient(circle at 78% 78%, rgba(34, 197, 94, 0.06), transparent 55%);
       z-index: -2;
     }
 
@@ -70,7 +70,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
       content: '';
       position: fixed;
       inset: 0;
-      background: linear-gradient(160deg, rgba(15, 23, 42, 0.85) 0%, rgba(2, 6, 23, 0.9) 45%, rgba(2, 6, 23, 0.95) 100%);
+      background: linear-gradient(160deg, rgba(26, 26, 26, 0.9) 0%, rgba(15, 15, 15, 0.92) 45%, rgba(9, 9, 9, 0.94) 100%);
       z-index: -3;
     }
 
@@ -79,10 +79,10 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 32px;
       padding: 36px;
-      background: linear-gradient(135deg, rgba(15, 23, 42, 0.85), rgba(30, 64, 175, 0.55));
+      background: linear-gradient(135deg, rgba(26, 26, 26, 0.92), rgba(55, 65, 81, 0.55));
       border-radius: 28px;
-      border: 1px solid rgba(148, 163, 184, 0.18);
-      box-shadow: 0 30px 80px rgba(15, 23, 42, 0.55);
+      border: 1px solid rgba(148, 163, 184, 0.14);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.55);
       backdrop-filter: blur(16px);
     }
 
@@ -90,11 +90,11 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
       font-size: clamp(2.1rem, 4vw, 2.8rem);
       font-weight: 700;
       margin-bottom: 12px;
-      color: #f8fafc;
+      color: #f9fafb;
     }
 
     .hero-card p {
-      color: rgba(226, 232, 240, 0.8);
+      color: rgba(226, 232, 240, 0.82);
       font-size: 1.05rem;
       line-height: 1.6;
     }
@@ -105,8 +105,8 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
       gap: 8px;
       padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(94, 234, 212, 0.12);
-      color: #5eead4;
+      background: rgba(250, 204, 21, 0.12);
+      color: #facc15;
       font-weight: 600;
       font-size: 0.95rem;
       width: fit-content;
@@ -134,26 +134,26 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, #2563eb, #7c3aed);
-      color: #f8fafc;
-      box-shadow: 0 12px 30px rgba(59, 130, 246, 0.35);
+      background: linear-gradient(135deg, #facc15, #f97316);
+      color: #111827;
+      box-shadow: 0 12px 30px rgba(250, 204, 21, 0.35);
       border: none;
     }
 
     .btn-primary:hover {
       transform: translateY(-2px);
-      box-shadow: 0 16px 36px rgba(99, 102, 241, 0.4);
-      color: #fff;
+      box-shadow: 0 16px 36px rgba(249, 115, 22, 0.4);
+      color: #0b0d13;
     }
 
     .btn-secondary {
-      background: rgba(148, 163, 184, 0.1);
-      color: #e2e8f0;
-      border: 1px solid rgba(148, 163, 184, 0.35);
+      background: rgba(148, 163, 184, 0.12);
+      color: #f8fafc;
+      border: 1px solid rgba(148, 163, 184, 0.28);
     }
 
     .btn-secondary:hover {
-      background: rgba(148, 163, 184, 0.2);
+      background: rgba(148, 163, 184, 0.22);
       transform: translateY(-2px);
     }
 
@@ -175,7 +175,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
     }
 
     .highlight i {
-      color: #38bdf8;
+      color: #facc15;
       font-size: 1.15rem;
     }
 
@@ -187,7 +187,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
     }
 
     .section-nav {
-      background: rgba(15, 23, 42, 0.65);
+      background: rgba(26, 26, 26, 0.76);
       border-radius: 20px;
       border: 1px solid rgba(148, 163, 184, 0.12);
       padding: 24px;
@@ -228,14 +228,14 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
     }
 
     .tab-button i {
-      color: #38bdf8;
+      color: #facc15;
       width: 20px;
     }
 
     .tab-button.is-active {
-      background: linear-gradient(135deg, rgba(37, 99, 235, 0.35), rgba(124, 58, 237, 0.35));
-      color: #f8fafc;
-      box-shadow: 0 12px 30px rgba(30, 64, 175, 0.25);
+      background: linear-gradient(135deg, rgba(250, 204, 21, 0.25), rgba(249, 115, 22, 0.25));
+      color: #111827;
+      box-shadow: 0 12px 30px rgba(250, 204, 21, 0.2);
     }
 
     .tab-button:hover {
@@ -269,9 +269,9 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
     }
 
     .command-card {
-      background: rgba(15, 23, 42, 0.72);
+      background: rgba(31, 41, 55, 0.78);
       border-radius: 20px;
-      border: 1px solid rgba(148, 163, 184, 0.12);
+      border: 1px solid rgba(148, 163, 184, 0.16);
       padding: 24px;
       display: flex;
       flex-direction: column;
@@ -290,7 +290,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
     }
 
     .command-card h3 i {
-      color: #38bdf8;
+      color: #facc15;
       font-size: 1.2rem;
     }
 
@@ -313,7 +313,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
       padding: 2px 6px;
       border-radius: 6px;
       border: 1px solid rgba(148, 163, 184, 0.2);
-      color: #93c5fd;
+      color: #facc15;
       font-size: 0.85rem;
     }
 
@@ -638,35 +638,62 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
               <h3><i class="fas fa-cogs"></i> <span data-key="setup-admin-title">Admin setup commands</span></h3>
               <p data-key="setup-admin-desc">These commands require administrator permissions:</p>
               <ul>
-                <li><code>/gotkingsroad helpadmin</code> – <span data-key="cmd-helpadmin">Show all admin-only commands.</span></li>
-                <li><code>/gotkingsroad channel timer</code> – <span data-key="cmd-channel-timer">Set the channel where the bot posts global timer messages.</span></li>
-                <li><code>/gotkingsroad channel warning</code> – <span data-key="cmd-channel-warning">Set the channel for Drogon warning messages.</span></li>
-                <li><code>/gotkingsroad channel patchnote</code> – <span data-key="cmd-channel-patchnote">Set the channel where the bot posts patchnote messages.</span></li>
-                <li><code>/gotkingsroad message</code> – <span data-key="cmd-message">Send or refresh the main timer message (Daily, Drogon, Weekly, Peddler).</span></li>
-                <li><code>/gotkingsroad reset</code> – <span data-key="cmd-reset">Delete the active timer message.</span></li>
-                <li><code>/gotkingsroad ranks</code> – <span data-key="cmd-ranks">Send a message with reaction buttons to let users choose their alert roles.</span></li>
-                <li><code>/gotkingsroad rankdaily @role</code> – <span data-key="cmd-rankdaily">Set the role to ping before the Daily Reset (07:00 UTC).</span></li>
-                <li><code>/gotkingsroad rankdrogon @role</code> – <span data-key="cmd-rankdrogon">Set the role to ping 5 minutes before Drogon spawns.</span></li>
-                <li><code>/gotkingsroad rankweekly @role</code> – <span data-key="cmd-rankweekly">Set the role to ping before the Weekly Reset (Thursday 05:00 UTC).</span></li>
-                <li><code>/gotkingsroad rankpeddler @role</code> – <span data-key="cmd-rankpeddler">Set the role to ping before the Peddler Timer.</span></li>
-                <li><code>/gotkingsroad summon</code> – <span data-key="cmd-summon">Manually summon Drogon with role ping and animation.</span></li>
-                <li><code>/gotkingsroad patchnote</code> – <span data-key="cmd-patchnote">Send the latest patchnote and keep it updated automatically.</span></li>
+                <li><code>/gotkingsroad setup</code> – Auto-create the recommended channels, roles and baseline configuration.</li>
+                <li><code>/gotkingsroad reload</code> – Refresh stored settings and recreate missing timer or patchnote messages.</li>
+                <li><code>/gotkingsroad cleanup</code> – Remove duplicate bot posts and tidy outdated automation messages.</li>
+                <li><code>/gotkingsroad permissions</code> – Audit the bot permissions in each configured channel.</li>
+                <li><code>/gotkingsroad status</code> – Display the saved timezone, style, channels and alert roles for this guild.</li>
+                <li><code>/gotkingsroad message</code> – Send or refresh the multi-timer message (Daily, Drogon, Weekly, Peddler, Beast, Limited Time Deal).</li>
+                <li><code>/gotkingsroad reset</code> – Delete the active timer message if you need to move it or clean up.</li>
+                <li><code>/gotkingsroad patchnote</code> – Publish the latest patchnote message and keep it synchronised.</li>
+                <li><code>/gotkingsroad summon &lt;target&gt;</code> – Manually trigger an alert (Drogon, Peddler, Daily, Weekly, Beast, Limited Time Deal).</li>
+                <li><code>/gotkingsroad helpadmin</code> – List every admin-only command directly in Discord.</li>
+              </ul>
+              <h4 class="badge"><i class="fas fa-sliders-h"></i> Configuration &amp; exports</h4>
+              <ul>
+                <li><code>/gotkingsroad config export</code> – Download the full guild configuration as JSON.</li>
+                <li><code>/gotkingsroad config import</code> – Restore a configuration from a previously exported JSON file.</li>
+                <li><code>/gotkingsroad set timezone</code> – Set the server timezone using an IANA identifier (e.g. <code>Europe/Paris</code>).</li>
+                <li><code>/gotkingsroad set language</code> – Choose the bot language (<code>fr</code>, <code>en</code>, <code>es</code>, <code>pt-br</code>).</li>
+                <li><code>/gotkingsroad set style</code> – Switch the timer message between <code>compact</code> and <code>embed</code> modes.</li>
+              </ul>
+              <h4 class="badge"><i class="fas fa-bullhorn"></i> Alert roles &amp; reaction panel</h4>
+              <ul>
+                <li><code>/gotkingsroad rank post</code> – Send the reaction-role selector so members can opt-in.</li>
+                <li><code>/gotkingsroad rank drogon @role</code> – Assign the role pinged for Drogon alerts.</li>
+                <li><code>/gotkingsroad rank peddler @role</code> – Assign the role pinged for Peddler alerts.</li>
+                <li><code>/gotkingsroad rank daily @role</code> – Assign the role pinged before the daily reset.</li>
+                <li><code>/gotkingsroad rank weekly @role</code> – Assign the role pinged before the weekly reset.</li>
+                <li><code>/gotkingsroad rank beast @role</code> – Assign the role pinged for Beast appearances.</li>
+                <li><code>/gotkingsroad rank limiteddeal @role</code> – Assign the role pinged for Limited Time Deal alerts.</li>
+              </ul>
+              <h4 class="badge"><i class="fas fa-hourglass-half"></i> Advanced scheduling</h4>
+              <ul>
+                <li><code>/gotkingsroad customtimer add</code> – Register a custom timer with a name and timestamp.</li>
+                <li><code>/gotkingsroad customtimer list</code> – Display all custom timers saved for the guild.</li>
+                <li><code>/gotkingsroad customtimer remove</code> – Delete one of the custom timers by name.</li>
               </ul>
             </div>
 
             <div class="command-card">
               <h3><i class="fas fa-user"></i> <span data-key="setup-user-title">General user commands</span></h3>
               <ul>
-                <li><code>/gotkingsroad help</code> – <span data-key="cmd-help">Show this help message with public commands.</span></li>
-                <li><code>/gotkingsroad ping</code> – <span data-key="cmd-ping">Check bot latency and confirm it's online.</span></li>
+                <li><code>/gotkingsroad help</code> – Display the public command list for every member.</li>
+                <li><code>/gotkingsroad ping</code> – Check the bot latency and confirm it is online.</li>
+                <li><code>/gotkingsroad timers</code> – Show the next Drogon, Daily, Weekly, Peddler, Beast and Limited Time Deal timers.</li>
+                <li><code>/gotkingsroad uptime</code> – Reveal how long the bot has been running without interruption.</li>
+                <li><code>/gotkingsroad about</code> – Learn more about the project, authors and support links.</li>
+                <li><code>/gotkingsroad event</code> – Receive the current in-game event calendar screenshot.</li>
               </ul>
 
               <h3 style="margin-top: 16px;"><i class="fas fa-bell"></i> <span data-key="setup-reminder-title">Reminders</span></h3>
               <p data-key="setup-reminder-desc">Receive private DMs shortly before a timer triggers:</p>
               <ul>
-                <li><code>/gotkingsroad reminder add</code> – <span data-key="cmd-reminder-add">Set a reminder for Drogon, Daily Reset, Weekly Reset or Peddler.</span></li>
-                <li><code>/gotkingsroad reminder list</code> – <span data-key="cmd-reminder-list">View your current active reminders.</span></li>
-                <li><code>/gotkingsroad reminder clear</code> – <span data-key="cmd-reminder-clear">Clear all your personal reminders.</span></li>
+                <li><code>/gotkingsroad reminder add</code> – Schedule a DM reminder for Drogon, Peddler, Daily, Weekly, Beast or Limited Time Deal.</li>
+                <li><code>/gotkingsroad reminder list</code> – Display every reminder you have configured.</li>
+                <li><code>/gotkingsroad reminder remove</code> – Delete one reminder by selecting the timer and the number of minutes.</li>
+                <li><code>/gotkingsroad reminder clear</code> – Clear all reminders for a single timer.</li>
+                <li><code>/gotkingsroad reminder clearall</code> – Wipe every reminder you have with one command.</li>
               </ul>
             </div>
 
@@ -720,7 +747,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
                 <span class="step-index">2</span>
                 <span data-key="webpanel-reminders-title">Roles &amp; timer channels</span>
               </h3>
-              <p data-key="panel-reminder-desc">Map each reminder to the correct Discord role and define the broadcast channels for timers and warnings.</p>
+              <p data-key="panel-reminder-desc">Map each alert to the correct Discord role and define the broadcast channels for timers, warnings and patchnotes.</p>
               <div class="card-body">
                 <div class="subgrid">
                   <div>
@@ -749,6 +776,18 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
                         <option value="" data-key="option-select-role">Select role</option>
                       </select>
                     </div>
+                    <div class="field-row">
+                      <label for="role-beast">Role for Beast</label>
+                      <select id="role-beast" class="form-select">
+                        <option value="">Select role</option>
+                      </select>
+                    </div>
+                    <div class="field-row">
+                      <label for="role-limited">Role for Limited Time Deal</label>
+                      <select id="role-limited" class="form-select">
+                        <option value="">Select role</option>
+                      </select>
+                    </div>
                   </div>
 
                   <div>
@@ -763,6 +802,12 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
                       <label for="channel-warning" data-key="label-channel-warning">Warning messages channel</label>
                       <select id="channel-warning" class="form-select">
                         <option value="" data-key="option-select-channel">Select channel</option>
+                      </select>
+                    </div>
+                    <div class="field-row">
+                      <label for="channel-patchnote">Patchnote channel</label>
+                      <select id="channel-patchnote" class="form-select">
+                        <option value="">Select channel</option>
                       </select>
                     </div>
                     <div class="action-buttons">
@@ -936,7 +981,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
         select.innerHTML = '<option disabled selected>Loading...</option>';
 
         try {
-          const res = await fetch('/api/discord/user-guilds.php');
+          const res = await fetch('/discord/user-guilds.php');
           if (!res.ok) throw new Error('Not logged in or error fetching guilds');
 
           const guilds = await res.json();
@@ -974,7 +1019,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
 
       async function loadGuildInfo(guildId) {
         try {
-          const res = await fetch('/api/discord/guild-info.php?id=' + guildId);
+          const res = await fetch('/discord/guild-info.php?id=' + guildId);
           if (!res.ok) throw new Error('Failed to load guild info');
           const { roles, channels, config } = await res.json();
 
@@ -987,8 +1032,16 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
       }
 
       function populateRoleSelectors(roles = [], config = {}) {
-        const roleFields = ['role-drogon', 'role-daily', 'role-weekly', 'role-peddler'];
-        roleFields.forEach((id) => {
+        const mapping = {
+          'role-drogon': 'drogonRoleId',
+          'role-peddler': 'peddlerRoleId',
+          'role-daily': 'dailyRoleId',
+          'role-weekly': 'weeklyRoleId',
+          'role-beast': 'beastRoleId',
+          'role-limited': 'limitedDealRoleId'
+        };
+
+        Object.entries(mapping).forEach(([id, key]) => {
           const select = document.getElementById(id);
           if (!select) return;
           select.innerHTML = '<option value="">Select role</option>';
@@ -996,12 +1049,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
             const opt = document.createElement('option');
             opt.value = role.id;
             opt.textContent = role.name;
-            if (
-              (id === 'role-drogon' && config.drogonRoleId === role.id) ||
-              (id === 'role-daily' && config.dailyRoleId === role.id) ||
-              (id === 'role-weekly' && config.weeklyRoleId === role.id) ||
-              (id === 'role-peddler' && config.peddlerRoleId === role.id)
-            ) {
+            if (config[key] === role.id) {
               opt.selected = true;
             }
             select.appendChild(opt);
@@ -1016,8 +1064,16 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
           'customChannel',
           'channel-warning',
           'channel-timer',
+          'channel-patchnote',
           'botTutorialChannel'
         ];
+
+        const mapping = {
+          'channel-timer': 'globalTimerChannelId',
+          'channel-warning': 'drogonWarningChannelId',
+          'channel-patchnote': 'patchnoteChannelId',
+          'botTutorialChannel': 'botTutorialChannelId'
+        };
 
         channelFields.forEach((id) => {
           const select = document.getElementById(id);
@@ -1029,10 +1085,7 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
               const opt = document.createElement('option');
               opt.value = channel.id;
               opt.textContent = `#${channel.name}`;
-              if (
-                (id === 'channel-timer' && config.globalTimerChannelId === channel.id) ||
-                (id === 'channel-warning' && config.drogonWarningChannelId === channel.id)
-              ) {
+              if (mapping[id] && config[mapping[id]] === channel.id) {
                 opt.selected = true;
               }
               select.appendChild(opt);
@@ -1086,57 +1139,38 @@ $userName = $isLoggedIn ? htmlspecialchars($_SESSION['user']['name'], ENT_QUOTES
       function bindBroadcastButtons() {
         const botTutorialBtn = document.getElementById('sendBotTutorialBtn');
         botTutorialBtn?.addEventListener('click', () => {
-          sendPrebuiltMessage('botTutorialChannel', `**__GOT-Kingsroad  Interactive MAP Bot – Command Overview (BETA)__**
-*Your personal assistant for timers, reminders, and map navigation in Game of Thrones: Kingsroad.*
+          sendPrebuiltMessage('botTutorialChannel', `**__GOT Kingsroad Discord Bot – Command Overview__**
+*Your personal assistant for automation, reminders and map navigation.*
 
----
+__**Server setup**__
+• \`/gotkingsroad setup\` – Auto-create recommended channels and alert roles.
+• \`/gotkingsroad reload\` – Refresh saved settings and recreate missing messages.
+• \`/gotkingsroad cleanup\` – Remove duplicate bot posts and tidy outdated automation messages.
+• \`/gotkingsroad permissions\` – Check that the bot can post in every configured channel.
+• \`/gotkingsroad status\` – Show configured timezone, style, channels and roles.
+• \`/gotkingsroad message\` – Send or refresh the combined timer post.
+• \`/gotkingsroad patchnote\` – Publish the latest patch notes.
+• \`/gotkingsroad summon <target>\` – Trigger an alert manually (Drogon, Peddler, Daily, Weekly, Beast, Limited Time Deal).
+• \`/gotkingsroad helpadmin\` – List every admin-only command directly in Discord.
 
-__**Admin Commands**__
+__**Configuration & roles**__
+• \`/gotkingsroad config export\` / \`import\` – Backup or restore your guild settings.
+• \`/gotkingsroad set timezone\` – Choose the timezone used for countdowns.
+• \`/gotkingsroad set language\` – Switch between fr, en, es and pt-br.
+• \`/gotkingsroad set style\` – Toggle between compact or embed timers.
+• \`/gotkingsroad rank post\` – Publish the reaction-role selector.
+• \`/gotkingsroad rank drogon|peddler|daily|weekly|beast|limiteddeal @role\` – Map alerts to roles.
 
-**Configuration & Timers**
-\`/gotkingsroad channel timer\` – Set channel for global timer messages
-\`/gotkingsroad message\` – Send or refresh the main timer message
-\`/gotkingsroad patchnote\` – Send or refresh the patchnote message
-\`/gotkingsroad reset\` – Delete the current timer message
+__**Member tools**__
+• \`/gotkingsroad help\` – Public help menu.
+• \`/gotkingsroad timers\` – Upcoming timers for every activity.
+• \`/gotkingsroad event\` – Current event calendar screenshot.
+• \`/gotkingsroad searchmarker <name>\` – Map screenshot centred on a marker.
+• \`/gotkingsroad reminder add|list|remove|clear|clearall\` – Personal DM reminders.
+• \`/gotkingsroad customtimer add|list|remove\` – Extra guild timers.
+• \`/gotkingsroad about\` – Project credits and support links.
 
-**Role Pings**
-\`/gotkingsroad rankdaily @role\` – Ping before Daily Reset (07:00 UTC)
-\`/gotkingsroad rankdrogon @role\` – Ping 5 minutes before Drogon
-\`/gotkingsroad rankweekly @role\` – Ping before Weekly Reset (Thursday 05:00 UTC)
-\`/gotkingsroad rankpeddler @role\` – Ping before Peddler
-
-**Channel Warnings**
-\`/gotkingsroad channel warning\` – Set channel for timer warnings
-\`/gotkingsroad channel patchnote\` – Set channel for bot patchnote messages
-
-**Manual Actions**
-\`/gotkingsroad summon\` – Manually summon Drogon with ping and animation
-
----
-
-__**Map Tools**__
-\`/gotkingsroad searchmarker\` – Show a screenshot centered on a specific map marker
-*Example: \`Lost Letter 16 – Oldtown Area\`*
-
----
-
-__**Reminders (DM Only)**__
-\`/gotkingsroad reminder add\` – Set a personal reminder for Drogon, Daily, Peddler or Weekly
-\`/gotkingsroad reminder list\` – View your active reminders
-\`/gotkingsroad reminder clear\` – Clear all your reminders
-
----
-
-__**Utility**__
-\`/gotkingsroad ping\` – Check bot response time
-\`/gotkingsroad help\` – List public commands
-\`/gotkingsroad helpadmin\` – List admin-only commands
-
----
-
-*CURRENTLY IN BETA – PM me if you want to test it!*
-https://got-kingsroad.com/
----`);
+Need more help? https://got-kingsroad.com/`);
         });
 
         const tutorialBtn = document.getElementById('sendTutorialMessageBtn');
@@ -1144,6 +1178,7 @@ https://got-kingsroad.com/
           sendPrebuiltMessage('tutorialChannel', `🔍 **Search any marker location on the map!**
 
 • \`/gotkingsroad searchmarker <name>\` – Instantly locate any marker on the map.
+• Autocomplete suggests every official marker as you type.
 • The bot will generate a screenshot centered on the marker.
 • Try with examples like: \`Drogon\`, \`Castle Black\`, or \`Iron Bank\`.
 
@@ -1152,11 +1187,15 @@ Make sure the bot has access to the selected channel!`);
 
         const reminderBtn = document.getElementById('sendReminderMessageBtn');
         reminderBtn?.addEventListener('click', () => {
-          sendPrebuiltMessage('reminderChannel', `🧭 **Here’s how to configure your reminder timers!**
+          sendPrebuiltMessage('reminderChannel', `🧭 **Configure your DM reminders in seconds**
 
-• \`/gotkingsroad reminder add\` – Add a custom reminder
-• \`/gotkingsroad reminder list\` – List your active reminders
-• \`/gotkingsroad reminder clear\` – Delete all your reminders`);
+• \`/gotkingsroad reminder add\` – Pick the timer (Drogon, Peddler, Daily, Weekly, Beast, Limited Time Deal) and minutes before.
+• \`/gotkingsroad reminder list\` – Review every reminder you currently have.
+• \`/gotkingsroad reminder remove\` – Delete one reminder by selecting the timer and minute value.
+• \`/gotkingsroad reminder clear\` – Clear reminders for a single timer.
+• \`/gotkingsroad reminder clearall\` – Wipe all reminders at once.
+
+Tip: run these commands in DM for a fully private setup.`);
         });
       }
 
@@ -1168,7 +1207,7 @@ Make sure the bot has access to the selected channel!`);
         }
 
         try {
-          const res = await fetch('/api/discord/send-message.php', {
+          const res = await fetch('/discord/send-message.php', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ channelId, message })
@@ -1198,15 +1237,19 @@ Make sure the bot has access to the selected channel!`);
           const payload = {
             guildId,
             drogon: document.getElementById('role-drogon')?.value || null,
+            peddler: document.getElementById('role-peddler')?.value || null,
             daily: document.getElementById('role-daily')?.value || null,
             weekly: document.getElementById('role-weekly')?.value || null,
-            peddler: document.getElementById('role-peddler')?.value || null,
+            beast: document.getElementById('role-beast')?.value || null,
+            limitedDeal: document.getElementById('role-limited')?.value || null,
             timerChannel: document.getElementById('channel-timer')?.value || null,
-            warningChannel: document.getElementById('channel-warning')?.value || null
+            warningChannel: document.getElementById('channel-warning')?.value || null,
+            patchnoteChannel: document.getElementById('channel-patchnote')?.value || null,
+            botTutorialChannel: document.getElementById('botTutorialChannel')?.value || null
           };
 
           try {
-            const res = await fetch('/api/discord/save-roles.php', {
+            const res = await fetch('/discord/save-roles.php', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)
@@ -1238,7 +1281,7 @@ Make sure the bot has access to the selected channel!`);
           const payload = { guildId, command: '/gotkingsroad message', channelId };
 
           try {
-            const res = await fetch('/api/discord/execute-command.php', {
+            const res = await fetch('/discord/execute-command.php', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify(payload)
@@ -1269,7 +1312,7 @@ Make sure the bot has access to the selected channel!`);
           }
 
           try {
-            const res = await fetch('/api/discord/send-message.php', {
+            const res = await fetch('/discord/send-message.php', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({ channelId, message })

@@ -6,14 +6,27 @@ header('Content-Type: application/json');
 $data = json_decode(file_get_contents('php://input'), true);
 $guildId = $data['guildId'] ?? null;
 $drogon = $data['drogon'] ?? null;
+$peddler = $data['peddler'] ?? null;
 $daily = $data['daily'] ?? null;
 $weekly = $data['weekly'] ?? null;
-$peddler = $data['peddler'] ?? null;
-$botTutorialChannel = $data['botTutorialChannel'] ?? null;
+$beast = $data['beast'] ?? null;
+$limitedDeal = $data['limitedDeal'] ?? null;
 
-// Champs pour channels (selon ta DB)
 $timerChannel = $data['timerChannel'] ?? null;
 $warningChannel = $data['warningChannel'] ?? null;
+$patchnoteChannel = $data['patchnoteChannel'] ?? null;
+$botTutorialChannel = $data['botTutorialChannel'] ?? null;
+
+$drogon = $drogon ?: null;
+$peddler = $peddler ?: null;
+$daily = $daily ?: null;
+$weekly = $weekly ?: null;
+$beast = $beast ?: null;
+$limitedDeal = $limitedDeal ?: null;
+$timerChannel = $timerChannel ?: null;
+$warningChannel = $warningChannel ?: null;
+$patchnoteChannel = $patchnoteChannel ?: null;
+$botTutorialChannel = $botTutorialChannel ?: null;
 
 if (!$guildId) {
     http_response_code(400);
@@ -33,25 +46,45 @@ try {
         ]
     );
 
-    $stmt = $pdo->prepare("
-        INSERT INTO settings (
-    guildId, drogonRoleId, dailyRoleId, weeklyRoleId, peddlerRoleId,
-    globalTimerChannelId, drogonWarningChannelId, botTutorialChannelId
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
-ON DUPLICATE KEY UPDATE
-    drogonRoleId = VALUES(drogonRoleId),
-    dailyRoleId = VALUES(dailyRoleId),
-    weeklyRoleId = VALUES(weeklyRoleId),
-    peddlerRoleId = VALUES(peddlerRoleId),
-    globalTimerChannelId = VALUES(globalTimerChannelId),
-    drogonWarningChannelId = VALUES(drogonWarningChannelId),
-    botTutorialChannelId = VALUES(botTutorialChannelId)
-    ");
+    $stmt = $pdo->prepare(
+        "INSERT INTO settings (
+            guildId,
+            drogonRoleId,
+            peddlerRoleId,
+            dailyRoleId,
+            weeklyRoleId,
+            beastRoleId,
+            limitedDealRoleId,
+            globalTimerChannelId,
+            drogonWarningChannelId,
+            patchnoteChannelId,
+            botTutorialChannelId
+        ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE
+            drogonRoleId = VALUES(drogonRoleId),
+            peddlerRoleId = VALUES(peddlerRoleId),
+            dailyRoleId = VALUES(dailyRoleId),
+            weeklyRoleId = VALUES(weeklyRoleId),
+            beastRoleId = VALUES(beastRoleId),
+            limitedDealRoleId = VALUES(limitedDealRoleId),
+            globalTimerChannelId = VALUES(globalTimerChannelId),
+            drogonWarningChannelId = VALUES(drogonWarningChannelId),
+            patchnoteChannelId = VALUES(patchnoteChannelId),
+            botTutorialChannelId = VALUES(botTutorialChannelId)"
+    );
 
     $stmt->execute([
-            $guildId, $drogon, $daily, $weekly, $peddler,
-    $timerChannel, $warningChannel,
-    $botTutorialChannel
+        $guildId,
+        $drogon,
+        $peddler,
+        $daily,
+        $weekly,
+        $beast,
+        $limitedDeal,
+        $timerChannel,
+        $warningChannel,
+        $patchnoteChannel,
+        $botTutorialChannel
     ]);
 
     echo json_encode(['success' => true]);
